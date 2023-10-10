@@ -1,6 +1,7 @@
 br/com/infogest/views/Cadastro$5.class
 br/com/infogest/views/Cadastro$3.class
 br/com/infogest/views/Principal$1.class
+br/com/infogest/views/sobre.class
 br/com/infogest/views/Cadastro$4.class
 br/com/infogest/views/Login.class
 br/com/infogest/dao/ConexaoDao.class
@@ -8,6 +9,8 @@ br/com/infogest/views/Login$1.class
 br/com/infogest/views/Cadastro$1.class
 br/com/infogest/views/Login$2.class
 br/com/infogest/Infogest.class
+br/com/infogest/views/sobre$1.class
 br/com/infogest/views/Cadastro.class
 br/com/infogest/views/Cadastro$2.class
+br/com/infogest/views/Principal$2.class
 br/com/infogest/views/Principal.class

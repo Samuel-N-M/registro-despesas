@@ -9,6 +9,7 @@ import br.com.infogest.model.Despesas;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -17,14 +18,15 @@ import javax.swing.table.DefaultTableModel;
  */
 public final class PainelDespesa extends javax.swing.JInternalFrame {
     
-    public void listarTabela() throws SQLException{
+    public void listarTabela() throws SQLException {
         DefaultTableModel model = (DefaultTableModel) listaDespesa.getModel();
         model.setNumRows(0);
-        
+
         DespDao despesaDao = new DespDao();
-        
-        for(Despesas d: despesaDao.listarDesp()){
+
+        for (Despesas d : despesaDao.listarDesp()) {
             model.addRow(new Object[]{
+                d.getId(),
                 d.getDescricao(),
                 d.getQtd(),
                 d.getData(),
@@ -32,6 +34,7 @@ public final class PainelDespesa extends javax.swing.JInternalFrame {
             });
         }
     }
+
     /**
      * Creates new form PainelReceita
      */
@@ -64,14 +67,14 @@ public final class PainelDespesa extends javax.swing.JInternalFrame {
         setClosable(true);
         setIconifiable(true);
         setMaximizable(true);
-        setTitle("Listagem de Receita");
+        setTitle("Listagem de Despesa");
         setPreferredSize(new java.awt.Dimension(559, 464));
 
-        jLabel1.setText("Descrição");
+        jLabel1.setText("* Descrição");
 
-        jLabel2.setText("Quantidade");
+        jLabel2.setText("* Quantidade");
 
-        jLabel3.setText("Valor");
+        jLabel3.setText("* Valor");
 
         textQtd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -86,6 +89,7 @@ public final class PainelDespesa extends javax.swing.JInternalFrame {
         });
 
         btnAdd.setText("Adicionar");
+        btnAdd.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnAdd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAddActionPerformed(evt);
@@ -93,6 +97,12 @@ public final class PainelDespesa extends javax.swing.JInternalFrame {
         });
 
         btnEx.setText("Excluir");
+        btnEx.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnEx.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -100,25 +110,29 @@ public final class PainelDespesa extends javax.swing.JInternalFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(35, 35, 35)
-                .addComponent(btnAdd)
-                .addGap(18, 18, 18)
-                .addComponent(btnEx)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel3))
-                .addGap(12, 12, 12)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(textDesc, javax.swing.GroupLayout.DEFAULT_SIZE, 158, Short.MAX_VALUE)
-                    .addComponent(textVal))
-                .addGap(35, 35, 35)
-                .addComponent(jLabel2)
-                .addGap(18, 18, 18)
-                .addComponent(textQtd, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(43, 43, 43))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel3))
+                        .addGap(12, 12, 12)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(textDesc)
+                            .addComponent(textVal, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
+                        .addComponent(jLabel2)
+                        .addGap(18, 18, 18)
+                        .addComponent(textQtd, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(btnAdd)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnEx, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addGap(31, 31, 31))
         );
+
+        jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnAdd, btnEx});
+
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -138,7 +152,7 @@ public final class PainelDespesa extends javax.swing.JInternalFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnEx)
                     .addComponent(btnAdd))
-                .addContainerGap(25, Short.MAX_VALUE))
+                .addContainerGap(13, Short.MAX_VALUE))
         );
 
         listaDespesa.setModel(new javax.swing.table.DefaultTableModel(
@@ -146,11 +160,11 @@ public final class PainelDespesa extends javax.swing.JInternalFrame {
 
             },
             new String [] {
-                "Descrição", "Qtd", "Data", "Valor"
+                "ID", "DESCRIÇÃO", "QTD", "DATA", "VALOR"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -159,6 +173,16 @@ public final class PainelDespesa extends javax.swing.JInternalFrame {
         });
         listaDespesa.setAutoscrolls(false);
         listaDespesa.setPreferredSize(new java.awt.Dimension(549, 281));
+        listaDespesa.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                listaDespesaMouseReleased(evt);
+            }
+        });
+        listaDespesa.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                listaDespesaKeyReleased(evt);
+            }
+        });
         jScrollPane1.setViewportView(listaDespesa);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -173,7 +197,7 @@ public final class PainelDespesa extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 281, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 293, Short.MAX_VALUE))
         );
 
         setBounds(0, 0, 559, 464);
@@ -191,23 +215,59 @@ public final class PainelDespesa extends javax.swing.JInternalFrame {
         try {
             Despesas d = new Despesas();
             DespDao desp = new DespDao();
-            
-            d.setDescricao(textDesc.getText());
-            d.setQtd(Integer.parseInt(textQtd.getText()));
-            d.setValor(Double.parseDouble(textVal.getText()));
-            
-            desp.Adicionar(d);
-            
-            textDesc.setText("");
-            textQtd.setText("");
-            textVal.setText("");
-            
-            listarTabela();
-            
+
+            // Validar compos obrigatórios
+            if ((textDesc.getText().isEmpty()) || (textQtd.getText().isEmpty()) || (textVal.getText().isEmpty())) {
+                JOptionPane.showMessageDialog(null, "Preencha todos os campos obrigatórios *");
+            } else {
+                d.setDescricao(textDesc.getText());
+                d.setQtd(Integer.parseInt(textQtd.getText()));
+                d.setValor(Double.parseDouble(textVal.getText()));
+
+                desp.Adicionar(d);
+
+                textDesc.setText("");
+                textQtd.setText("");
+                textVal.setText("");
+
+                listarTabela();
+            }
+
         } catch (SQLException ex) {
             Logger.getLogger(PainelDespesa.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnAddActionPerformed
+
+    private void listaDespesaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_listaDespesaKeyReleased
+       
+    }//GEN-LAST:event_listaDespesaKeyReleased
+
+    private void btnExActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExActionPerformed
+        try {
+            if (listaDespesa.getSelectedRow() != -1) {
+                Despesas d = new Despesas();
+                DespDao desp = new DespDao();
+
+                d.setId((int) listaDespesa.getValueAt(listaDespesa.getSelectedRow(), 0));
+
+                desp.ExcluirDespItem(d);
+
+                listarTabela();
+            } else {
+                JOptionPane.showMessageDialog(null, "Selecione um item da lista para ser excluido!");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(PainelDespesa.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnExActionPerformed
+
+    private void listaDespesaMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listaDespesaMouseReleased
+        if (listaDespesa.getSelectedRow() != -1) {
+//            textDesc.setText(listaDespesa.getValueAt(listaDespesa.getSelectedRow(), 1).toString());
+//            textQtd.setText(listaDespesa.getValueAt(listaDespesa.getSelectedRow(), 2).toString());
+//            textVal.setText(listaDespesa.getValueAt(listaDespesa.getSelectedRow(), 3).toString());
+        }
+    }//GEN-LAST:event_listaDespesaMouseReleased
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -218,7 +278,7 @@ public final class PainelDespesa extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable listaDespesa;
+    public static javax.swing.JTable listaDespesa;
     private javax.swing.JTextField textDesc;
     private javax.swing.JTextField textQtd;
     private javax.swing.JTextField textVal;

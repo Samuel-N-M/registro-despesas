@@ -1,10 +1,18 @@
 package br.com.infogest.views;
 
+import br.com.infogest.dao.ConexaoDao;
+import br.com.infogest.model.Despesas;
 import java.sql.*;
 import java.awt.HeadlessException;
 import javax.swing.JOptionPane;
 
 public class Login extends javax.swing.JFrame {
+
+    private int usuarioId;
+
+    public int getUsuarioId() {
+        return usuarioId;
+    }
 
     Connection conexao = null;
     PreparedStatement pst = null;
@@ -16,6 +24,7 @@ public class Login extends javax.swing.JFrame {
 
         try {
             // Preparar consulta ao banco
+            conexao = ConexaoDao.conectar();
             pst = conexao.prepareStatement(sql);
             pst.setString(1, textUser.getText());
             //metodo de captura de senha mais segura
@@ -27,13 +36,27 @@ public class Login extends javax.swing.JFrame {
 
             // Estrutura de verificação de existencia
             if (rs.next()) {
+                usuarioId = rs.getInt(1);
+
+                int idVerif = getUsuarioId();
+
+                if (idVerif > 0) {
+                    System.out.println("Id do usuário obtido: " + usuarioId);
+                    Despesas d = new Despesas();
+                    d.setUsuario_id(idVerif);
+                    
+                    System.out.println("Imprimindo Id user de despesas: " + d.getUsuario_id());
+                } else {
+                    System.out.println("id não encontrado");
+                }
+                
                 // chamo a classe da tela que desejo e instancio ela
                 Principal principal = new Principal();
                 // Função que irá exibir a tela principal
                 principal.setVisible(true);
                 // Função para encerrar login
                 dispose();
-                
+
                 // fechar conexao com banco
                 conexao.close();
                 pst.close();
@@ -123,7 +146,7 @@ public class Login extends javax.swing.JFrame {
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
         logar();
     }//GEN-LAST:event_btnLoginActionPerformed
-    
+
     /**
      * @param args the command line arguments
      */

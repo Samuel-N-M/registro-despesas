@@ -2,15 +2,15 @@ package br.com.infogest.model;
 
 import java.sql.Date;
 
-public class Despesas {
+public class Receitas {
 
     private int id;
+    private String nome;
     private String descricao;
     private int qtd;
     private Date data;
+    private String endereco;
     private double valor;
-    private String tipo;
-    private int usuario_id;
 
     public int getId() {
         return id;
@@ -18,6 +18,14 @@ public class Despesas {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
     public String getDescricao() {
@@ -44,6 +52,14 @@ public class Despesas {
         this.data = data;
     }
 
+    public String getEndereco() {
+        return endereco;
+    }
+
+    public void setEndereco(String endereco) {
+        this.endereco = endereco;
+    }
+
     public double getValor() {
         return valor;
     }
@@ -52,23 +68,4 @@ public class Despesas {
         this.valor = valor;
     }
 
-    public String getTipo() {
-        return tipo;
-    }
-
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
-    }
-
-    public int getUsuario_id() {
-        return usuario_id;
-    }
-
-    public void setUsuario_id(int usuario_id) {
-        this.usuario_id = usuario_id;
-    }
-    
-    
-    
-    
 }

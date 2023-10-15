@@ -1,7 +1,6 @@
 package br.com.infogest.model;
 
 import br.com.infogest.dao.ConexaoDao;
-import br.com.infogest.views.Login;
 import java.sql.*;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;

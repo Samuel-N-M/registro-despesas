@@ -17,7 +17,7 @@ import javax.swing.table.DefaultTableModel;
  * @author samuel
  */
 public final class PainelDespesa extends javax.swing.JInternalFrame {
-    
+
     public void listarTabela() throws SQLException {
         DefaultTableModel model = (DefaultTableModel) listaDespesa.getModel();
         model.setNumRows(0);
@@ -239,7 +239,7 @@ public final class PainelDespesa extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void listaDespesaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_listaDespesaKeyReleased
-       
+
     }//GEN-LAST:event_listaDespesaKeyReleased
 
     private void btnExActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExActionPerformed

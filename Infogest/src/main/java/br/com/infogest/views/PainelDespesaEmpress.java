@@ -4,23 +4,46 @@
  */
 package br.com.infogest.views;
 
+import br.com.infogest.model.DespEmpressDao;
+import br.com.infogest.model.RecDao;
+import br.com.infogest.model.Receitas;
 import java.sql.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author samuel
  */
-public final class PainelReceita extends javax.swing.JInternalFrame {
-    
-    
-    public void listarReceita() throws SQLException{
-        
+public final class PainelDespesaEmpress extends javax.swing.JInternalFrame {
+
+    public void listarDespEmpress() throws SQLException {
+        DefaultTableModel model = (DefaultTableModel) listaDesp.getModel();
+        model.setNumRows(0);
+
+        DespEmpressDao despesa = new DespEmpressDao();
+
+        for (Receitas r : despesa.listarDespEmpress()) {
+            model.addRow(new Object[]{
+                r.getId(),
+                r.getNome(),
+                r.getDescricao(),
+                r.getQtd(),
+                r.getData(),
+                r.getEndereco(),
+                r.getValor()
+            });
+        }
     }
+
     /**
      * Creates new form PainelReceita
      */
-    public PainelReceita() {
+    public PainelDespesaEmpress() throws SQLException {
         initComponents();
+        listarDespEmpress();
     }
 
     /**
@@ -47,7 +70,7 @@ public final class PainelReceita extends javax.swing.JInternalFrame {
         jLabel6 = new javax.swing.JLabel();
         textNome = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        listaReceita = new javax.swing.JTable();
+        listaDesp = new javax.swing.JTable();
 
         setClosable(true);
         setIconifiable(true);
@@ -81,6 +104,11 @@ public final class PainelReceita extends javax.swing.JInternalFrame {
         });
 
         btnExRec.setText("Excluir");
+        btnExRec.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExRecActionPerformed(evt);
+            }
+        });
 
         jLabel4.setText("R$");
 
@@ -167,28 +195,25 @@ public final class PainelReceita extends javax.swing.JInternalFrame {
                 .addGap(16, 16, 16))
         );
 
-        listaReceita.setModel(new javax.swing.table.DefaultTableModel(
+        listaDesp.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "NOME", "DESCRIÇÃO", "QTD", "DATA", "ENDEREÇO", "VALOR"
+                "ID", "NOME", "DESCRIÇÃO", "QTD", "DATA", "ENDEREÇO", "VALOR"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        listaReceita.setAutoscrolls(false);
-        listaReceita.setPreferredSize(new java.awt.Dimension(549, 281));
-        jScrollPane1.setViewportView(listaReceita);
-        if (listaReceita.getColumnModel().getColumnCount() > 0) {
-            listaReceita.getColumnModel().getColumn(0).setResizable(false);
-        }
+        listaDesp.setAutoscrolls(false);
+        listaDesp.setPreferredSize(new java.awt.Dimension(549, 281));
+        jScrollPane1.setViewportView(listaDesp);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -217,12 +242,56 @@ public final class PainelReceita extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_textValActionPerformed
 
     private void btnAddRecActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddRecActionPerformed
+        try {
+            Receitas r = new Receitas();
+            DespEmpressDao despesa = new DespEmpressDao();
 
+            // Validar compos obrigatórios
+            if ((textNome.getText().isEmpty()) || (textDesc.getText().isEmpty()) || (textQtd.getText().isEmpty()) || (textEnd.getText().isEmpty()) || (textVal.getText().isEmpty())) {
+                JOptionPane.showMessageDialog(null, "Preencha todos os campos obrigatórios *");
+            } else {
+                r.setNome(textNome.getText());
+                r.setDescricao(textDesc.getText());
+                r.setQtd(Integer.parseInt(textQtd.getText()));
+                r.setEndereco(textEnd.getText());
+                r.setValor(Double.parseDouble(textVal.getText()));
+
+                despesa.AdicionarDespEmpress(r);
+
+                textDesc.setText("");
+                textQtd.setText("");
+                textVal.setText("");
+
+                listarDespEmpress();
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(PainelDespesa.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnAddRecActionPerformed
 
     private void textNomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textNomeActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_textNomeActionPerformed
+
+    private void btnExRecActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExRecActionPerformed
+        try {
+            if (listaDesp.getSelectedRow() != -1) {
+                Receitas r = new Receitas();
+                DespEmpressDao despesa = new DespEmpressDao();
+
+                r.setId((int) listaDesp.getValueAt(listaDesp.getSelectedRow(), 0));
+
+                despesa.ExcluirDespEmpressItem(r);
+
+                listarDespEmpress();
+            } else {
+                JOptionPane.showMessageDialog(null, "Selecione um item da lista para ser excluido!");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(PainelDespesa.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnExRecActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -236,7 +305,7 @@ public final class PainelReceita extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable listaReceita;
+    private javax.swing.JTable listaDesp;
     private javax.swing.JTextField textDesc;
     private javax.swing.JTextField textEnd;
     private javax.swing.JTextField textNome;

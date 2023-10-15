@@ -237,13 +237,13 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_menSobActionPerformed
 
     private void btnReceitasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReceitasActionPerformed
-//        try {
-//            PainelReceita receita = new PainelReceita();
-//            receita.setVisible(true);
-//            painel.add(receita);
-//        } catch (SQLException ex) {
-//            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
-//        }
+        try {
+            PainelReceitaEmpress receita = new PainelReceitaEmpress();
+            receita.setVisible(true);
+            painel.add(receita);
+        } catch (SQLException ex) {
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnReceitasActionPerformed
 
     private void menSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menSairActionPerformed

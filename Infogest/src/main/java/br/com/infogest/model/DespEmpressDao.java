@@ -1,12 +1,16 @@
 package br.com.infogest.model;
 
 import br.com.infogest.dao.ConexaoDao;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 
-public class RecDao {
+public class DespEmpressDao {
 
     Connection conexao = null;
     PreparedStatement pst = null;
@@ -14,9 +18,9 @@ public class RecDao {
 
     Date dataAtual = new Date(System.currentTimeMillis());
 
-    public void AdicionarRec(Receitas r) throws SQLException {
+    public void AdicionarDespEmpress(Receitas r) throws SQLException {
         try {
-            String sql = "INSERT INTO listaEmpress(nome, descricao, qtd, data, endereco, tipo, valor) VALUES (?, ?, ?, ?, ?, 'Receita', ?)";
+            String sql = "INSERT INTO listaEmpress(nome, descricao, qtd, data, endereco, tipo, valor) VALUES (?, ?, ?, ?, ?, 'Despesa', ?)";
 
             conexao = ConexaoDao.conectar();
             pst = conexao.prepareStatement(sql);
@@ -40,7 +44,7 @@ public class RecDao {
     }
 
     // Adicionar item na lista de receitas
-    public List<Receitas> listarRec() throws SQLException {
+    public List<Receitas> listarDespEmpress() throws SQLException {
         conexao = ConexaoDao.conectar();
 
         List<Receitas> receitas = new ArrayList<>();
@@ -83,7 +87,7 @@ public class RecDao {
     }
 
     // Deletar itens da lista de receita
-    public void ExcluirRecItem(Receitas r) throws SQLException {
+    public void ExcluirDespEmpressItem(Receitas r) throws SQLException {
 
         try {
             String sql = "DELETE FROM listaEmpress WHERE id = ?";

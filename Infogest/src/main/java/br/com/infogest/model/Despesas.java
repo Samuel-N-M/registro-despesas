@@ -10,7 +10,7 @@ public class Despesas {
     private Date data;
     private double valor;
     private String tipo;
-    private int usuario_id;
+    private static int usuario_id;
 
     public int getId() {
         return id;
@@ -64,10 +64,11 @@ public class Despesas {
         return usuario_id;
     }
 
-    public void setUsuario_id(int usuario_id) {
-        this.usuario_id = usuario_id;
+    public static void setUsuario_id(int usuario_id) {
+        Despesas.usuario_id = usuario_id;
     }
-    
+
+   
     
     
     

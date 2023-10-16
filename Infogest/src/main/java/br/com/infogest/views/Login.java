@@ -7,13 +7,6 @@ import java.awt.HeadlessException;
 import javax.swing.JOptionPane;
 
 public class Login extends javax.swing.JFrame {
-
-    private int usuarioId;
-
-    public int getUsuarioId() {
-        return usuarioId;
-    }
-
     Connection conexao = null;
     PreparedStatement pst = null;
     ResultSet rs = null;
@@ -36,20 +29,9 @@ public class Login extends javax.swing.JFrame {
 
             // Estrutura de verificação de existencia
             if (rs.next()) {
-                usuarioId = rs.getInt(1);
-
-                int idVerif = getUsuarioId();
-
-                if (idVerif > 0) {
-                    System.out.println("Id do usuário obtido: " + usuarioId);
-                    Despesas d = new Despesas();
-                    d.setUsuario_id(idVerif);
-
-                    System.out.println("Imprimindo Id user de despesas: " + d.getUsuario_id());
-                } else {
-                    System.out.println("id não encontrado");
-                }
-
+                int idUser = rs.getInt(1);
+                Despesas.setUsuario_id(idUser);
+                
                 // Obter o coneudo da coluna tipo da tabela usuários
                 String tipo = rs.getString(5);
 

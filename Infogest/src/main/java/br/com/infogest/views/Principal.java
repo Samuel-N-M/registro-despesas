@@ -4,6 +4,7 @@
  */
 package br.com.infogest.views;
 
+import br.com.infogest.model.Despesas;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -212,10 +213,12 @@ public class Principal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        Despesas d = new Despesas();
         try {
             PainelDespesa despesa = new PainelDespesa();
             despesa.setVisible(true);
             painel.add(despesa);
+            System.out.println("Usuário id obtido: " + d.getUsuario_id());
         } catch (SQLException ex) {
             Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
         }

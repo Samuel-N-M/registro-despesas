@@ -44,18 +44,26 @@ public class Login extends javax.swing.JFrame {
                     System.out.println("Id do usuário obtido: " + usuarioId);
                     Despesas d = new Despesas();
                     d.setUsuario_id(idVerif);
-                    
+
                     System.out.println("Imprimindo Id user de despesas: " + d.getUsuario_id());
                 } else {
                     System.out.println("id não encontrado");
                 }
-                
-                // chamo a classe da tela que desejo e instancio ela
-                Principal principal = new Principal();
-                // Função que irá exibir a tela principal
-                principal.setVisible(true);
-                // Função para encerrar login
-                dispose();
+
+                // Obter o coneudo da coluna tipo da tabela usuários
+                String tipo = rs.getString(5);
+
+                if (tipo.equals("Empresarial")) {
+                    // Função que irá exibir a tela principal
+                    Principal principal = new Principal();
+                    principal.setVisible(true);
+                    Principal.btnReceitas.setEnabled(true);
+                    this.dispose();
+                } else {
+                    Principal principal = new Principal();
+                    principal.setVisible(true);
+                    this.dispose();
+                }
 
                 // fechar conexao com banco
                 conexao.close();

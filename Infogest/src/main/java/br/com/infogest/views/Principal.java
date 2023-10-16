@@ -94,6 +94,7 @@ public class Principal extends javax.swing.JFrame {
 
         btnReceitas.setText("Receitas");
         btnReceitas.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnReceitas.setEnabled(false);
         btnReceitas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnReceitasActionPerformed(evt);
@@ -291,8 +292,8 @@ public class Principal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnReceitas;
-    private javax.swing.JButton jButton2;
+    public static javax.swing.JButton btnReceitas;
+    public static javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;

@@ -46,13 +46,16 @@ public class DespDao {
     // Adicionar item na lista de despesas
     public List<Despesas> listarDesp() throws SQLException {
         conexao = ConexaoDao.conectar();
-
+        
+        Despesas d = new Despesas();
+        
         List<Despesas> despesas = new ArrayList<>();
 
         try {
-            String sql = "Select id, descricao, qtd, data, valor from listaPess";
+            String sql = "Select id, descricao, qtd, data, valor from listaPess WHERE usuario_id = ?";
 
             pst = conexao.prepareStatement(sql);
+            pst.setInt(1, d.getUsuario_id());
             rs = pst.executeQuery();
 
             while (rs.next()) {

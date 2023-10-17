@@ -5,6 +5,9 @@
 package br.com.infogest.views;
 
 import br.com.infogest.model.Despesas;
+import br.com.infogest.model.DespesasEmpress;
+import br.com.infogest.model.Receitas;
+import br.com.infogest.model.Usuarios;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -214,11 +217,19 @@ public class Principal extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         Despesas d = new Despesas();
+        Usuarios user = new Usuarios();
         try {
-            PainelDespesa despesa = new PainelDespesa();
-            despesa.setVisible(true);
-            painel.add(despesa);
-            System.out.println("Usuário id obtido: " + d.getUsuario_id());
+            if (user.getTipo().equals("Pessoal")) {
+                PainelDespesa despesa = new PainelDespesa();
+                despesa.setVisible(true);
+                painel.add(despesa);
+            }else if(user.getTipo().equals("Empresarial")){
+                DespesasEmpress.setTipo("Despesa");
+                
+                PainelDespesaEmpress despEmpress = new PainelDespesaEmpress();
+                despEmpress.setVisible(true);
+                painel.add(despEmpress);
+            }
         } catch (SQLException ex) {
             Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -242,6 +253,8 @@ public class Principal extends javax.swing.JFrame {
 
     private void btnReceitasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReceitasActionPerformed
         try {
+            Receitas.setTipo("Receita");
+            
             PainelReceitaEmpress receita = new PainelReceitaEmpress();
             receita.setVisible(true);
             painel.add(receita);
@@ -252,8 +265,8 @@ public class Principal extends javax.swing.JFrame {
 
     private void menSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menSairActionPerformed
         int sair = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja sair?", "Atenção", JOptionPane.YES_NO_OPTION);
-        
-        if(sair == JOptionPane.YES_OPTION){
+
+        if (sair == JOptionPane.YES_OPTION) {
             System.exit(0);
         }
     }//GEN-LAST:event_menSairActionPerformed

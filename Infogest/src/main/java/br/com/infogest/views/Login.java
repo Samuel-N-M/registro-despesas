@@ -2,6 +2,9 @@ package br.com.infogest.views;
 
 import br.com.infogest.dao.ConexaoDao;
 import br.com.infogest.model.Despesas;
+import br.com.infogest.model.DespesasEmpress;
+import br.com.infogest.model.Receitas;
+import br.com.infogest.model.Usuarios;
 import java.sql.*;
 import java.awt.HeadlessException;
 import javax.swing.JOptionPane;
@@ -31,10 +34,14 @@ public class Login extends javax.swing.JFrame {
             if (rs.next()) {
                 int idUser = rs.getInt(1);
                 Despesas.setUsuario_id(idUser);
+                Receitas.setUsuario_id(idUser);
+                DespesasEmpress.setUsuario_id(idUser);
+                Usuarios.setId(idUser);
                 
-                // Obter o coneudo da coluna tipo da tabela usuários
+                // Obter o coneudo da coluna tipo da tabela usuários do banco
                 String tipo = rs.getString(5);
-
+                Usuarios.setTipo(tipo);
+                
                 if (tipo.equals("Empresarial")) {
                     // Função que irá exibir a tela principal
                     Principal principal = new Principal();
@@ -81,6 +88,8 @@ public class Login extends javax.swing.JFrame {
         textUser = new javax.swing.JTextField();
         textSenha = new javax.swing.JPasswordField();
         btnLogin = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
+        lblCadastarButon = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -96,14 +105,29 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
+        jLabel3.setText("Não possui uma conta?");
+
+        lblCadastarButon.setForeground(new java.awt.Color(51, 51, 255));
+        lblCadastarButon.setText("Cadastrar");
+        lblCadastarButon.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblCadastarButonMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(23, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btnLogin)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(lblCadastarButon)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 62, Short.MAX_VALUE)
+                        .addComponent(btnLogin))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -126,7 +150,10 @@ public class Login extends javax.swing.JFrame {
                     .addComponent(jLabel2)
                     .addComponent(textSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(btnLogin)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnLogin)
+                    .addComponent(jLabel3)
+                    .addComponent(lblCadastarButon))
                 .addContainerGap(58, Short.MAX_VALUE))
         );
 
@@ -136,6 +163,12 @@ public class Login extends javax.swing.JFrame {
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
         logar();
     }//GEN-LAST:event_btnLoginActionPerformed
+
+    private void lblCadastarButonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCadastarButonMouseClicked
+        Cadastro cadastro = new Cadastro();
+        cadastro.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_lblCadastarButonMouseClicked
 
     /**
      * @param args the command line arguments
@@ -177,6 +210,8 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JButton btnLogin;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel lblCadastarButon;
     private javax.swing.JPasswordField textSenha;
     private javax.swing.JTextField textUser;
     // End of variables declaration//GEN-END:variables

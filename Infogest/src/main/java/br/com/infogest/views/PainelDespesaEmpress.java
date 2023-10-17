@@ -5,6 +5,7 @@
 package br.com.infogest.views;
 
 import br.com.infogest.model.DespEmpressDao;
+import br.com.infogest.model.DespesasEmpress;
 import br.com.infogest.model.RecDao;
 import br.com.infogest.model.Receitas;
 import java.sql.*;
@@ -25,7 +26,7 @@ public final class PainelDespesaEmpress extends javax.swing.JInternalFrame {
 
         DespEmpressDao despesa = new DespEmpressDao();
 
-        for (Receitas r : despesa.listarDespEmpress()) {
+        for (DespesasEmpress r : despesa.listarDespEmpress()) {
             model.addRow(new Object[]{
                 r.getId(),
                 r.getNome(),
@@ -75,7 +76,7 @@ public final class PainelDespesaEmpress extends javax.swing.JInternalFrame {
         setClosable(true);
         setIconifiable(true);
         setMaximizable(true);
-        setTitle("Listagem de Receita");
+        setTitle("Listagem de Despesas");
         setPreferredSize(new java.awt.Dimension(559, 464));
 
         jLabel1.setText("* Descrição");
@@ -243,20 +244,20 @@ public final class PainelDespesaEmpress extends javax.swing.JInternalFrame {
 
     private void btnAddRecActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddRecActionPerformed
         try {
-            Receitas r = new Receitas();
+            DespesasEmpress dp = new DespesasEmpress();
             DespEmpressDao despesa = new DespEmpressDao();
 
             // Validar compos obrigatórios
             if ((textNome.getText().isEmpty()) || (textDesc.getText().isEmpty()) || (textQtd.getText().isEmpty()) || (textEnd.getText().isEmpty()) || (textVal.getText().isEmpty())) {
                 JOptionPane.showMessageDialog(null, "Preencha todos os campos obrigatórios *");
             } else {
-                r.setNome(textNome.getText());
-                r.setDescricao(textDesc.getText());
-                r.setQtd(Integer.parseInt(textQtd.getText()));
-                r.setEndereco(textEnd.getText());
-                r.setValor(Double.parseDouble(textVal.getText()));
+                dp.setNome(textNome.getText());
+                dp.setDescricao(textDesc.getText());
+                dp.setQtd(Integer.parseInt(textQtd.getText()));
+                dp.setEndereco(textEnd.getText());
+                dp.setValor(Double.parseDouble(textVal.getText()));
 
-                despesa.AdicionarDespEmpress(r);
+                despesa.AdicionarDespEmpress(dp);
 
                 textDesc.setText("");
                 textQtd.setText("");
@@ -277,12 +278,12 @@ public final class PainelDespesaEmpress extends javax.swing.JInternalFrame {
     private void btnExRecActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExRecActionPerformed
         try {
             if (listaDesp.getSelectedRow() != -1) {
-                Receitas r = new Receitas();
+                DespesasEmpress dp = new DespesasEmpress();
                 DespEmpressDao despesa = new DespEmpressDao();
 
-                r.setId((int) listaDesp.getValueAt(listaDesp.getSelectedRow(), 0));
+                dp.setId((int) listaDesp.getValueAt(listaDesp.getSelectedRow(), 0));
 
-                despesa.ExcluirDespEmpressItem(r);
+                despesa.ExcluirDespEmpressItem(dp);
 
                 listarDespEmpress();
             } else {

@@ -1,5 +1,9 @@
 package br.com.infogest.views;
 
+import br.com.infogest.model.Despesas;
+import br.com.infogest.model.DespesasEmpress;
+import br.com.infogest.model.Receitas;
+import br.com.infogest.model.Usuarios;
 import java.sql.*;
 import javax.swing.JOptionPane;
 
@@ -8,60 +12,90 @@ public class Cadastro extends javax.swing.JFrame {
     Connection conexao = null;
     PreparedStatement pst = null;
     ResultSet rs = null;
-    
-    public void cadastrar(){
+
+    public void cadastrar() {
         String sqlVerif = "SELECT * FROM usuarios WHERE email = ?";
-        
+
         try {
             // Realizar se já existe um usuário com os mesmo dados
-            
+
             pst = conexao.prepareStatement(sqlVerif);
             pst.setString(1, textUser.getText());
             rs = pst.executeQuery();
-            
-            if(rs.next()){
+
+            if (rs.next()) {
                 JOptionPane.showMessageDialog(this, "Usuário existente.", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
-            
+
             // Realizar a incerção dos dados no banco de dados
-            
             String sqlInserir = "INSERT INTO usuarios(nome, email, senha, tipo) VALUES (?, ?, md5(?), ?)";
-            
+
             pst = conexao.prepareStatement(sqlInserir);
             pst.setString(1, textName.getText());
             pst.setString(2, textUser.getText());
             String senha = new String(textSenha.getPassword());
             pst.setString(3, senha);
-            
+
             String tipoCont = null;
-            
-            if(rdPess.isSelected()){
+
+            if (rdPess.isSelected()) {
                 tipoCont = "Pessoal";
-            }else if(rdEmpres.isSelected()){
+            } else if (rdEmpres.isSelected()) {
                 tipoCont = "Empresarial";
             }
-            
+
             pst.setString(4, tipoCont);
-            
+
             // Executar a inserção
             int inserido = pst.executeUpdate();
-            
+
             if (inserido > 0) {
                 JOptionPane.showMessageDialog(this, "Cadastro bem-sucedido");
+                
+                String sqlBuc = "SELECT id, tipo FROM usuarios WHERE email = ?";
+                pst = conexao.prepareStatement(sqlBuc);
+                pst.setString(1, textUser.getText());
+                rs = pst.executeQuery();
+
+                if (rs.next()) {
+                    int idUser = rs.getInt("id");
+                    Usuarios.setId(idUser);
+                    Despesas.setUsuario_id(idUser);
+                    Receitas.setUsuario_id(idUser);
+                    DespesasEmpress.setUsuario_id(idUser);
+
+                    String tipo = rs.getString("tipo");
+                    Usuarios.setTipo(tipo);
+
+                    if (tipo.equals("Empresarial")) {
+                        Principal principal = new Principal();
+                        principal.setVisible(true);
+                        Principal.btnReceitas.setEnabled(true);
+                        this.dispose();
+                    } else {
+                        Principal principal = new Principal();
+                        principal.setVisible(true);
+                        this.dispose();
+                    }
+                } else {
+                    System.out.println("Não foi possivel obter o id do usuário");
+                }
+
                 // fechar conexao com banco
                 conexao.close();
                 pst.close();
+                rs.close();
             } else {
                 JOptionPane.showMessageDialog(this, "Cadastro mal-sucedido");
             }
-            
+
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
-    
+
     }
-    
+
     /**
      * Creates new form TelaCadastro
      */

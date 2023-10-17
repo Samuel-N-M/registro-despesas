@@ -18,22 +18,25 @@ public class DespEmpressDao {
 
     Date dataAtual = new Date(System.currentTimeMillis());
 
-    public void AdicionarDespEmpress(Receitas r) throws SQLException {
+    public void AdicionarDespEmpress(DespesasEmpress dp) throws SQLException {
         try {
-            String sql = "INSERT INTO listaEmpress(nome, descricao, qtd, data, endereco, tipo, valor) VALUES (?, ?, ?, ?, ?, 'Despesa', ?)";
+            String sql = "INSERT INTO listaEmpress(nome, descricao, qtd, data, endereco, tipo, valor, usuario_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
             conexao = ConexaoDao.conectar();
             pst = conexao.prepareStatement(sql);
-            pst.setString(1, r.getNome());
-            pst.setString(2, r.getDescricao());
-            pst.setInt(3, r.getQtd());
+            pst.setString(1, dp.getNome());
+            pst.setString(2, dp.getDescricao());
+            pst.setInt(3, dp.getQtd());
             pst.setDate(4, dataAtual);
-            pst.setString(5, r.getEndereco());
-            pst.setDouble(6, r.getValor());
+            pst.setString(5, dp.getEndereco());
+            pst.setString(6, dp.getTipo());
+            pst.setDouble(7, dp.getValor());
+            pst.setInt(8, dp.getUsuario_id());
 
             pst.executeUpdate();
 
             JOptionPane.showMessageDialog(null, "Salvo com sucesso!");
+            
 
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Não foi possivel realizar esta operação!" + "Error: " + e);
@@ -43,31 +46,34 @@ public class DespEmpressDao {
         }
     }
 
-    // Adicionar item na lista de receitas
-    public List<Receitas> listarDespEmpress() throws SQLException {
+    // Adicionar item na lista de despesas
+    public List<DespesasEmpress> listarDespEmpress() throws SQLException {
         conexao = ConexaoDao.conectar();
+        
+        DespesasEmpress dp = new DespesasEmpress();
 
-        List<Receitas> receitas = new ArrayList<>();
+        List<DespesasEmpress> despesas = new ArrayList<>();
 
         try {
-            String sql = "Select id, nome, descricao, qtd, data, endereco, valor from listaEmpress";
+            String sql = "Select id, nome, descricao, qtd, data, endereco, valor from listaEmpress WHERE usuario_id = ? AND tipo = ?";
 
             pst = conexao.prepareStatement(sql);
+            pst.setInt(1, dp.getUsuario_id());
+            pst.setString(2, dp.getTipo());
             rs = pst.executeQuery();
 
             while (rs.next()) {
-                Receitas r = new Receitas();
                 // Buscando dados do BD
-                r.setId(rs.getInt("id"));
-                r.setNome(rs.getString("nome"));
-                r.setDescricao(rs.getString("descricao"));
-                r.setQtd(rs.getInt("qtd"));
-                r.setData(rs.getDate("data"));
-                r.setEndereco(rs.getString("endereco"));
-                r.setValor(rs.getDouble("valor"));
+                dp.setId(rs.getInt("id"));
+                dp.setNome(rs.getString("nome"));
+                dp.setDescricao(rs.getString("descricao"));
+                dp.setQtd(rs.getInt("qtd"));
+                dp.setData(rs.getDate("data"));
+                dp.setEndereco(rs.getString("endereco"));
+                dp.setValor(rs.getDouble("valor"));
 
                 // Adicioanr todos os valores obtidos na lista
-                receitas.add(r);
+                despesas.add(dp);
             }
 
         } catch (SQLException e) {
@@ -83,18 +89,18 @@ public class DespEmpressDao {
                 rs.close();
             }
         }
-        return receitas;
+        return despesas;
     }
 
     // Deletar itens da lista de receita
-    public void ExcluirDespEmpressItem(Receitas r) throws SQLException {
+    public void ExcluirDespEmpressItem(DespesasEmpress dp) throws SQLException {
 
         try {
             String sql = "DELETE FROM listaEmpress WHERE id = ?";
 
             conexao = ConexaoDao.conectar();
             pst = conexao.prepareStatement(sql);
-            pst.setInt(1, r.getId());
+            pst.setInt(1, dp.getId());
 
             pst.executeUpdate();
 

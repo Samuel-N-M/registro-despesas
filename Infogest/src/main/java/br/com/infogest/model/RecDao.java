@@ -16,7 +16,7 @@ public class RecDao {
 
     public void AdicionarRec(Receitas r) throws SQLException {
         try {
-            String sql = "INSERT INTO listaEmpress(nome, descricao, qtd, data, endereco, tipo, valor) VALUES (?, ?, ?, ?, ?, 'Receita', ?)";
+            String sql = "INSERT INTO listaEmpress(nome, descricao, qtd, data, endereco, tipo, valor, usuario_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
             conexao = ConexaoDao.conectar();
             pst = conexao.prepareStatement(sql);
@@ -25,7 +25,9 @@ public class RecDao {
             pst.setInt(3, r.getQtd());
             pst.setDate(4, dataAtual);
             pst.setString(5, r.getEndereco());
-            pst.setDouble(6, r.getValor());
+            pst.setString(6, r.getTipo());
+            pst.setDouble(7, r.getValor());
+            pst.setInt(8, r.getUsuario_id());
 
             pst.executeUpdate();
 
@@ -42,17 +44,20 @@ public class RecDao {
     // Adicionar item na lista de receitas
     public List<Receitas> listarRec() throws SQLException {
         conexao = ConexaoDao.conectar();
+        
+        Receitas r = new Receitas();
 
         List<Receitas> receitas = new ArrayList<>();
 
         try {
-            String sql = "Select id, nome, descricao, qtd, data, endereco, valor from listaEmpress";
+            String sql = "Select id, nome, descricao, qtd, data, endereco, valor from listaEmpress WHERE usuario_id = ? AND tipo = ?";
 
             pst = conexao.prepareStatement(sql);
+            pst.setInt(1, r.getUsuario_id());
+            pst.setString(2, r.getTipo());
             rs = pst.executeQuery();
 
             while (rs.next()) {
-                Receitas r = new Receitas();
                 // Buscando dados do BD
                 r.setId(rs.getInt("id"));
                 r.setNome(rs.getString("nome"));

@@ -2,8 +2,8 @@ package br.com.infogest.model;
 
 import java.sql.Date;
 
-public class Receitas {
 
+public class DespesasEmpress {
     private int id;
     private String nome;
     private String descricao;
@@ -21,7 +21,7 @@ public class Receitas {
     public void setId(int id) {
         this.id = id;
     }
-
+    
     public String getNome() {
         return nome;
     }
@@ -75,7 +75,7 @@ public class Receitas {
     }
 
     public static void setTipo(String tipo) {
-        Receitas.tipo = tipo;
+        DespesasEmpress.tipo = tipo;
     }
 
     public int getUsuario_id() {
@@ -83,9 +83,8 @@ public class Receitas {
     }
 
     public static void setUsuario_id(int usuario_id) {
-        Receitas.usuario_id = usuario_id;
+        DespesasEmpress.usuario_id = usuario_id;
     }
-    
-    
 
+    
 }

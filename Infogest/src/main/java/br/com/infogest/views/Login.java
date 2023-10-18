@@ -4,6 +4,7 @@ import br.com.infogest.dao.ConexaoDao;
 import br.com.infogest.model.Despesas;
 import br.com.infogest.model.DespesasEmpress;
 import br.com.infogest.model.Receitas;
+import br.com.infogest.model.Transacoes;
 import br.com.infogest.model.Usuarios;
 import java.sql.*;
 import java.awt.HeadlessException;
@@ -37,10 +38,12 @@ public class Login extends javax.swing.JFrame {
                 Receitas.setUsuario_id(idUser);
                 DespesasEmpress.setUsuario_id(idUser);
                 Usuarios.setId(idUser);
+                Transacoes.setUsuarioID(idUser);
                 
                 // Obter o coneudo da coluna tipo da tabela usuários do banco
                 String tipo = rs.getString(5);
                 Usuarios.setTipo(tipo);
+                Transacoes.setTipo(tipo);
                 
                 if (tipo.equals("Empresarial")) {
                     // Função que irá exibir a tela principal

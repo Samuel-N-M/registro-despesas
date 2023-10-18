@@ -55,6 +55,7 @@ public class RecDao {
             pst = conexao.prepareStatement(sql);
             pst.setInt(1, r.getUsuario_id());
             pst.setString(2, r.getTipo());
+            
             rs = pst.executeQuery();
 
             while (rs.next()) {

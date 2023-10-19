@@ -1,8 +1,10 @@
 package br.com.infogest.views;
 
+import br.com.infogest.model.Contas;
 import br.com.infogest.model.Despesas;
 import br.com.infogest.model.DespesasEmpress;
 import br.com.infogest.model.Receitas;
+import br.com.infogest.model.Transacoes;
 import br.com.infogest.model.Usuarios;
 import java.sql.*;
 import javax.swing.JOptionPane;
@@ -53,20 +55,29 @@ public class Cadastro extends javax.swing.JFrame {
             if (inserido > 0) {
                 JOptionPane.showMessageDialog(this, "Cadastro bem-sucedido");
                 
-                String sqlBuc = "SELECT id, tipo FROM usuarios WHERE email = ?";
+                String sqlBuc = "SELECT id, nome, email, tipo FROM usuarios WHERE email = ?";
                 pst = conexao.prepareStatement(sqlBuc);
                 pst.setString(1, textUser.getText());
                 rs = pst.executeQuery();
 
                 if (rs.next()) {
+                    String userName = rs.getString("nome");
+                    Usuarios.setNome(userName);
+                    
+                    String email = rs.getString("email");
+                    Usuarios.setEmail(email);
+                    
                     int idUser = rs.getInt("id");
                     Usuarios.setId(idUser);
                     Despesas.setUsuario_id(idUser);
                     Receitas.setUsuario_id(idUser);
                     DespesasEmpress.setUsuario_id(idUser);
+                    Transacoes.setUsuarioID(idUser);
+                    Contas.setUsuario_id(idUser);
 
                     String tipo = rs.getString("tipo");
                     Usuarios.setTipo(tipo);
+                    Transacoes.setTipo(tipo);
 
                     if (tipo.equals("Empresarial")) {
                         Principal principal = new Principal();

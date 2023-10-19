@@ -1,6 +1,7 @@
 package br.com.infogest.views;
 
 import br.com.infogest.dao.ConexaoDao;
+import br.com.infogest.model.Contas;
 import br.com.infogest.model.Despesas;
 import br.com.infogest.model.DespesasEmpress;
 import br.com.infogest.model.Receitas;
@@ -33,14 +34,21 @@ public class Login extends javax.swing.JFrame {
 
             // Estrutura de verificação de existencia
             if (rs.next()) {
+                String userName = rs.getString(2);
+                Usuarios.setNome(userName);
+                
+                String email = rs.getString(3);
+                Usuarios.setEmail(email);
+                
                 int idUser = rs.getInt(1);
                 Despesas.setUsuario_id(idUser);
                 Receitas.setUsuario_id(idUser);
                 DespesasEmpress.setUsuario_id(idUser);
                 Usuarios.setId(idUser);
                 Transacoes.setUsuarioID(idUser);
+                Contas.setUsuario_id(idUser);
                 
-                // Obter o coneudo da coluna tipo da tabela usuários do banco
+                // Obter o conteudo da coluna tipo da tabela usuários do banco
                 String tipo = rs.getString(5);
                 Usuarios.setTipo(tipo);
                 Transacoes.setTipo(tipo);
@@ -54,6 +62,7 @@ public class Login extends javax.swing.JFrame {
                 } else {
                     Principal principal = new Principal();
                     principal.setVisible(true);
+                    Principal.btnTotal.setEnabled(true);
                     this.dispose();
                 }
 

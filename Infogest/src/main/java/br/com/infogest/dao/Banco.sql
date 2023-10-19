@@ -16,9 +16,8 @@ CREATE TABLE usuarios (
 
 CREATE TABLE contas_bancarias (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    nome VARCHAR(100) NOT NULL,
     saldo DECIMAL(10, 2) NOT NULL,
-    usuario_id INT,
+    usuario_id INT NOT NULL,
     FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
 );
 
@@ -30,7 +29,7 @@ CREATE TABLE listaPess (
     qtd int not null,
     valor DECIMAL(10, 2) NOT NULL,
     data DATE NOT NULL,
-    conta_id INT ,
+    conta_id INT,
     usuario_id INT NOT NULL,
     FOREIGN KEY (conta_id) REFERENCES contas_bancarias(id),
     FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
@@ -60,3 +59,11 @@ select * from categorias;
 select * from contas_bancarias;
 select * from listaPess;
 select * from listaEmpress;
+
+-- Detalhes da tabela
+
+describe usuarios;
+describe contas_bancarias;
+describe listaPess;
+describe listaEmpress;
+

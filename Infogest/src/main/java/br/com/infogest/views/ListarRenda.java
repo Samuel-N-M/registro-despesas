@@ -4,74 +4,84 @@
  */
 package br.com.infogest.views;
 
+import br.com.infogest.model.CorTabela;
 import br.com.infogest.model.Transacoes;
 import br.com.infogest.model.TransacoesDao;
+import br.com.infogest.model.Usuarios;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.sql.SQLException;
+import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author samuel
  */
-public class Total extends javax.swing.JInternalFrame {
+public class ListarRenda extends javax.swing.JInternalFrame {
 
     public void listarTransacoes() throws SQLException {
-        DefaultTableModel model = (DefaultTableModel) listaDespRec.getModel();
-        model.setNumRows(0);
-
-        TransacoesDao tDao = new TransacoesDao();
+        TransacoesDao transacoes = new TransacoesDao();
 
         if (rbMes.isSelected()) {
-            for (Transacoes t : tDao.listaMensal(Integer.parseInt(comboxMes.getSelectedItem().toString()), Integer.parseInt(comboxAno.getSelectedItem().toString()))) {
-                model.addRow(new Object[]{
-                    t.getId(),
-                    t.getNome(),
-                    t.getDescricao(),
-                    t.getQtd(),
-                    t.getData(),
-                    t.getEndereco(),
-                    t.getValor()
-                });
-            }
+            transacoes.listarMensal(Integer.parseInt(comboxMes.getSelectedItem().toString()), Integer.parseInt(comboxAno.getSelectedItem().toString()));
+
+            String somaDesp = Double.toString(transacoes.somarDespesas(Integer.parseInt(comboxMes.getSelectedItem().toString()), Integer.parseInt(comboxAno.getSelectedItem().toString())));
+            lblDesp.setText(somaDesp);
+
+            String somaRec = Double.toString(transacoes.somarReceitas(Integer.parseInt(comboxMes.getSelectedItem().toString()), Integer.parseInt(comboxAno.getSelectedItem().toString())));
+            lblRec.setText(somaRec);
+
+            String renda = Double.toString(transacoes.calculoRenda(Integer.parseInt(comboxMes.getSelectedItem().toString()), Integer.parseInt(comboxAno.getSelectedItem().toString())));
+            lblRend.setText(renda);
+
+            // Obter tipos do banco de dados
+            List<String> tipos = transacoes.Tipos(Integer.parseInt(comboxMes.getSelectedItem().toString()), Integer.parseInt(comboxAno.getSelectedItem().toString()));
+
+            // Definir o renderizador de celula
+            listaDespRec.setDefaultRenderer(Object.class, new CorTabela(tipos));
+
         } else if (rbAno.isSelected()) {
-            for (Transacoes t : tDao.listaAnual(Integer.parseInt(comboxAno.getSelectedItem().toString()))) {
-                model.addRow(new Object[]{
-                    t.getId(),
-                    t.getNome(),
-                    t.getDescricao(),
-                    t.getQtd(),
-                    t.getData(),
-                    t.getEndereco(),
-                    t.getValor()
-                });
-            }
+            transacoes.listarAnual(Integer.parseInt(comboxAno.getSelectedItem().toString()));
+            
+            String somaDesp = Double.toString(transacoes.somarDespesasAnual(Integer.parseInt(comboxAno.getSelectedItem().toString())));
+            lblDesp.setText(somaDesp);
+
+            String somaRec = Double.toString(transacoes.somarReceitasAnuais(Integer.parseInt(comboxAno.getSelectedItem().toString())));
+            lblRec.setText(somaRec);
+
+            String renda = Double.toString(transacoes.calculoRendaAnual(Integer.parseInt(comboxAno.getSelectedItem().toString())));
+            lblRend.setText(renda);
+
+            // Obter tipos do banco de dados
+            List<String> tipos = transacoes.Tipos(Integer.parseInt(comboxAno.getSelectedItem().toString()));
+
+            // Definir o renderizador de celula
+            listaDespRec.setDefaultRenderer(Object.class, new CorTabela(tipos));
         }
-    }
-    
-    public void calcular(){
-    
     }
 
     /**
      * Creates new form Total
      */
-    public Total(){
+    public ListarRenda() {
         initComponents();
-        
+
         rbAno.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
-                if(e.getStateChange() == ItemEvent.SELECTED){
+                if (e.getStateChange() == ItemEvent.SELECTED) {
                     // Quando rbano é selecionado, desativa o comboxMes
                     comboxMes.setEnabled(false);
-                }else{
+                } else {
                     comboxMes.setEnabled(true);
                 }
             }
         });
         
+        Usuarios user = new Usuarios();
+        lblUserEmail.setText(user.getEmail());
+
     }
 
     /**
@@ -88,7 +98,7 @@ public class Total extends javax.swing.JInternalFrame {
         listaDespRec = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        lblUserEmail = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         btnCal = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
@@ -109,6 +119,7 @@ public class Total extends javax.swing.JInternalFrame {
         jLabel14 = new javax.swing.JLabel();
         lblSaldFinal = new javax.swing.JLabel();
 
+        setClosable(true);
         setPreferredSize(new java.awt.Dimension(559, 464));
 
         listaDespRec.setModel(new javax.swing.table.DefaultTableModel(
@@ -133,7 +144,7 @@ public class Total extends javax.swing.JInternalFrame {
 
         jLabel1.setText("Usuário:");
 
-        jLabel2.setText("nome usuario");
+        lblUserEmail.setText("nome usuario");
 
         jLabel3.setText("Caucular despesa/renda:");
 
@@ -165,10 +176,13 @@ public class Total extends javax.swing.JInternalFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(btnCal)
-                        .addGap(6, 6, 6))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnCal)))
+                        .addGap(25, 25, 25))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -178,8 +192,7 @@ public class Total extends javax.swing.JInternalFrame {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel1)
                                 .addGap(18, 18, 18)
-                                .addComponent(jLabel2))
-                            .addComponent(jLabel3)
+                                .addComponent(lblUserEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                 .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                                     .addComponent(jLabel5)
@@ -189,7 +202,7 @@ public class Total extends javax.swing.JInternalFrame {
                                     .addComponent(jLabel4)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                     .addComponent(comboxMes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addContainerGap(47, Short.MAX_VALUE))))
+                        .addContainerGap(48, Short.MAX_VALUE))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -197,7 +210,7 @@ public class Total extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jLabel2))
+                    .addComponent(lblUserEmail))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -268,68 +281,76 @@ public class Total extends javax.swing.JInternalFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(14, 14, 14)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(22, 22, 22)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(lblRend, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(lblSaldFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(29, Short.MAX_VALUE))
+                            .addComponent(lblSaldFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(12, 12, 12)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblSald, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblRec, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblDesp, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(17, 17, 17))))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, 103, Short.MAX_VALUE)
+                            .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(29, 29, 29)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(lblDesp, javax.swing.GroupLayout.DEFAULT_SIZE, 175, Short.MAX_VALUE)
+                            .addComponent(lblRec, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblSald, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addContainerGap(33, Short.MAX_VALUE))
         );
+
+        jPanel2Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {lblRend, lblSaldFinal});
+
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
-                    .addComponent(lblDesp, javax.swing.GroupLayout.DEFAULT_SIZE, 29, Short.MAX_VALUE))
+                    .addComponent(lblDesp, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(12, 12, 12)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
                     .addComponent(lblRec, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
                     .addComponent(lblSald, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(16, 16, 16)
+                .addGap(22, 22, 22)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel11)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(23, 23, 23)
                         .addComponent(lblRend, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel14)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel14)
+                            .addComponent(jLabel11))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lblSaldFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        jPanel2Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {lblDesp, lblRec, lblSald});
+
+        jPanel2Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {lblRend, lblSaldFinal});
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGap(19, 19, 19)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1))
-                .addContainerGap())
+                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(15, 15, 15))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -339,11 +360,11 @@ public class Total extends javax.swing.JInternalFrame {
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 189, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(20, Short.MAX_VALUE))
         );
 
-        setBounds(0, 0, 559, 464);
+        setBounds(0, 0, 670, 540);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCalActionPerformed
@@ -363,7 +384,6 @@ public class Total extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -372,12 +392,13 @@ public class Total extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JLabel lblDesp;
-    private javax.swing.JLabel lblRec;
-    private javax.swing.JLabel lblRend;
-    private javax.swing.JLabel lblSald;
-    private javax.swing.JLabel lblSaldFinal;
-    private javax.swing.JTable listaDespRec;
+    public static javax.swing.JLabel lblDesp;
+    public static javax.swing.JLabel lblRec;
+    public static javax.swing.JLabel lblRend;
+    public static javax.swing.JLabel lblSald;
+    public static javax.swing.JLabel lblSaldFinal;
+    private javax.swing.JLabel lblUserEmail;
+    public static javax.swing.JTable listaDespRec;
     private javax.swing.JRadioButton rbAno;
     private javax.swing.JRadioButton rbMes;
     private javax.swing.ButtonGroup rendAnoMes;

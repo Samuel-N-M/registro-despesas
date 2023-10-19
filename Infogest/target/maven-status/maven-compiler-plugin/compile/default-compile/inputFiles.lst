@@ -1,6 +1,8 @@
+/home/samuel/GitHub/registro-despesas/Infogest/src/main/java/br/com/infogest/model/CorTabela.java
+/home/samuel/GitHub/registro-despesas/Infogest/src/main/java/br/com/infogest/views/AdicionarSaldo.java
 /home/samuel/GitHub/registro-despesas/Infogest/src/main/java/br/com/infogest/views/Principal.java
 /home/samuel/GitHub/registro-despesas/Infogest/src/main/java/br/com/infogest/model/DespesasEmpress.java
-/home/samuel/GitHub/registro-despesas/Infogest/src/main/java/br/com/infogest/views/Adicionar.java
+/home/samuel/GitHub/registro-despesas/Infogest/src/main/java/br/com/infogest/model/Contas.java
 /home/samuel/GitHub/registro-despesas/Infogest/src/main/java/br/com/infogest/model/RecDao.java
 /home/samuel/GitHub/registro-despesas/Infogest/src/main/java/br/com/infogest/views/PainelReceitaEmpress.java
 /home/samuel/GitHub/registro-despesas/Infogest/src/main/java/br/com/infogest/Infogest.java
@@ -11,10 +13,10 @@
 /home/samuel/GitHub/registro-despesas/Infogest/src/main/java/br/com/infogest/model/Usuarios.java
 /home/samuel/GitHub/registro-despesas/Infogest/src/main/java/br/com/infogest/model/Receitas.java
 /home/samuel/GitHub/registro-despesas/Infogest/src/main/java/br/com/infogest/views/sobre.java
-/home/samuel/GitHub/registro-despesas/Infogest/src/main/java/br/com/infogest/views/Total.java
 /home/samuel/GitHub/registro-despesas/Infogest/src/main/java/br/com/infogest/model/Transacoes.java
 /home/samuel/GitHub/registro-despesas/Infogest/src/main/java/br/com/infogest/model/Despesas.java
 /home/samuel/GitHub/registro-despesas/Infogest/src/main/java/br/com/infogest/dao/ConexaoDao.java
 /home/samuel/GitHub/registro-despesas/Infogest/src/main/java/br/com/infogest/model/TransacoesDao.java
+/home/samuel/GitHub/registro-despesas/Infogest/src/main/java/br/com/infogest/views/ListarRenda.java
 /home/samuel/GitHub/registro-despesas/Infogest/src/main/java/br/com/infogest/views/PainelDespesaEmpress.java
 /home/samuel/GitHub/registro-despesas/Infogest/src/main/java/br/com/infogest/views/Cadastro.java

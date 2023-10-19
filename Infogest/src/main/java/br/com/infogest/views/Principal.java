@@ -45,7 +45,7 @@ public class Principal extends javax.swing.JFrame {
         btnReceitas = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         btnTotal = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
+        btnDetRend = new javax.swing.JButton();
         painel = new javax.swing.JDesktopPane();
         jButton4 = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
@@ -130,10 +130,11 @@ public class Principal extends javax.swing.JFrame {
             }
         });
 
-        jButton5.setText("Destalhar renda");
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
+        btnDetRend.setText("Detalhar renda");
+        btnDetRend.setEnabled(false);
+        btnDetRend.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
+                btnDetRendActionPerformed(evt);
             }
         });
 
@@ -192,7 +193,7 @@ public class Principal extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(jButton5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnDetRend, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnTotal, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnReceitas, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -218,7 +219,7 @@ public class Principal extends javax.swing.JFrame {
                         .addGap(30, 30, 30)
                         .addComponent(btnTotal, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
                         .addGap(35, 35, 35)
-                        .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
+                        .addComponent(btnDetRend, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
                         .addGap(31, 31, 31)
                         .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
                         .addGap(60, 60, 60))))
@@ -251,7 +252,7 @@ public class Principal extends javax.swing.JFrame {
         
     }//GEN-LAST:event_btnTotalActionPerformed
 
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+    private void btnDetRendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDetRendActionPerformed
         Usuarios user = new Usuarios();
         
         if (user.getTipo().equals("Pessoal")) {
@@ -261,7 +262,7 @@ public class Principal extends javax.swing.JFrame {
             total.setVisible(true);
             painel.add(total);
         }
-    }//GEN-LAST:event_jButton5ActionPerformed
+    }//GEN-LAST:event_btnDetRendActionPerformed
 
     private void menSobActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menSobActionPerformed
         // TODO add your handling code here:
@@ -329,11 +330,11 @@ public class Principal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    public static javax.swing.JButton btnDetRend;
     public static javax.swing.JButton btnReceitas;
     public static javax.swing.JButton btnTotal;
     public static javax.swing.JButton jButton2;
     private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JMenuBar jMenuBar1;

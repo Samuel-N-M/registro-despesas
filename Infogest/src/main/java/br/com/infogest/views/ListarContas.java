@@ -4,13 +4,14 @@
  */
 package br.com.infogest.views;
 
-import br.com.infogest.model.CorTabela;
-import br.com.infogest.model.TransacoesDao;
+import br.com.infogest.model.Contas;
+import br.com.infogest.model.ContasDao;
+import br.com.infogest.model.TransacoesPessDao;
 import br.com.infogest.model.Usuarios;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+
 import java.sql.SQLException;
-import java.util.List;
 
 /**
  *
@@ -19,20 +20,35 @@ import java.util.List;
 public class ListarContas extends javax.swing.JInternalFrame {
 
     public void listarTransacoes() throws SQLException {
-        TransacoesDao transacoes = new TransacoesDao();
+        TransacoesPessDao transacoesPess = new TransacoesPessDao();
+        Contas c = new Contas();
+        ContasDao cont = new ContasDao();
 
         if (rbMes.isSelected()) {
-            transacoes.listarMensal(Integer.parseInt(comboxMes.getSelectedItem().toString()), Integer.parseInt(comboxAno.getSelectedItem().toString()));
+            transacoesPess.listaMensal(Integer.parseInt(comboxMes.getSelectedItem().toString()), Integer.parseInt(comboxAno.getSelectedItem().toString()));
 
-            String somaDesp = Double.toString(transacoes.somarDespesas(Integer.parseInt(comboxMes.getSelectedItem().toString()), Integer.parseInt(comboxAno.getSelectedItem().toString())));
-            lblDesp.setText(somaDesp);
+            String somaDesp = Double.toString(transacoesPess.somaDespesas(Integer.parseInt(comboxMes.getSelectedItem().toString()), Integer.parseInt(comboxAno.getSelectedItem().toString())));
+            lblDespPess.setText(somaDesp);
+
+            String saldo = Double.toString(c.getSaldo());
+            lblSald.setText(saldo);
+
+            double somaDespesa = transacoesPess.somaDespesas(Integer.parseInt(comboxMes.getSelectedItem().toString()), Integer.parseInt(comboxAno.getSelectedItem().toString()));
+            String saldoFinal = Double.toString(c.getSaldo() - somaDespesa);
+            lblSaldFinalPess.setText(saldoFinal);
 
         } else if (rbAno.isSelected()) {
-            transacoes.listarAnual(Integer.parseInt(comboxAno.getSelectedItem().toString()));
-            
-            String somaDesp = Double.toString(transacoes.somarDespesasAnual(Integer.parseInt(comboxAno.getSelectedItem().toString())));
-            lblDesp.setText(somaDesp);
+            transacoesPess.listaAnual(Integer.parseInt(comboxAno.getSelectedItem().toString()));
 
+            String somaDesp = Double.toString(transacoesPess.somaDespesasAnual(Integer.parseInt(comboxAno.getSelectedItem().toString())));
+            lblDespPess.setText(somaDesp);
+
+            String saldo = Double.toString(c.getSaldo());
+            lblSald.setText(saldo);
+
+            double somaDespesa = transacoesPess.somaDespesasAnual(Integer.parseInt(comboxAno.getSelectedItem().toString()));
+            String saldoFinal = Double.toString(c.getSaldo() - somaDespesa);
+            lblSaldFinalPess.setText(saldoFinal);
         }
     }
 
@@ -41,7 +57,7 @@ public class ListarContas extends javax.swing.JInternalFrame {
      */
     public ListarContas() {
         initComponents();
-
+        
         rbAno.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
@@ -70,7 +86,7 @@ public class ListarContas extends javax.swing.JInternalFrame {
 
         rendAnoMes = new javax.swing.ButtonGroup();
         jScrollPane1 = new javax.swing.JScrollPane();
-        listaDespRec = new javax.swing.JTable();
+        listaDespesas = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         lblUserEmail = new javax.swing.JLabel();
@@ -84,32 +100,32 @@ public class ListarContas extends javax.swing.JInternalFrame {
         comboxAno = new javax.swing.JComboBox<>();
         jPanel2 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
-        lblDesp = new javax.swing.JLabel();
+        lblDespPess = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         lblSald = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
-        lblSaldFinal = new javax.swing.JLabel();
+        lblSaldFinalPess = new javax.swing.JLabel();
 
         setClosable(true);
         setPreferredSize(new java.awt.Dimension(559, 464));
 
-        listaDespRec.setModel(new javax.swing.table.DefaultTableModel(
+        listaDespesas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "ID", "NOME", "DESCRIÇÃO", "QTD", "DATA", "ENDEREÇO", "VALOR"
+                "ID", "DESCRIÇÃO", "QTD", "DATA", "VALOR"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false
+                false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(listaDespRec);
+        jScrollPane1.setViewportView(listaDespesas);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Informações"));
 
@@ -117,7 +133,7 @@ public class ListarContas extends javax.swing.JInternalFrame {
 
         lblUserEmail.setText("nome usuario");
 
-        jLabel3.setText("Caucular despesas");
+        jLabel3.setText("Caucular despesa/renda:");
 
         btnCal.setText("Calcular");
         btnCal.addActionListener(new java.awt.event.ActionListener() {
@@ -180,7 +196,7 @@ public class ListarContas extends javax.swing.JInternalFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(lblUserEmail))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -204,10 +220,10 @@ public class ListarContas extends javax.swing.JInternalFrame {
         jLabel6.setFont(new java.awt.Font("Fira Sans", 1, 13)); // NOI18N
         jLabel6.setText("Despesa Total:");
 
-        lblDesp.setForeground(java.awt.Color.red);
-        lblDesp.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblDesp.setText("DESPESA");
-        lblDesp.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        lblDespPess.setForeground(java.awt.Color.red);
+        lblDespPess.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblDespPess.setText("DESPESA");
+        lblDespPess.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         jLabel10.setFont(new java.awt.Font("Fira Sans", 1, 13)); // NOI18N
         jLabel10.setText("Saldo Atual:");
@@ -220,52 +236,53 @@ public class ListarContas extends javax.swing.JInternalFrame {
         jLabel14.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel14.setText("Saldo Final");
 
-        lblSaldFinal.setFont(new java.awt.Font("Fira Sans", 0, 24)); // NOI18N
-        lblSaldFinal.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblSaldFinal.setText("SALDO");
-        lblSaldFinal.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        lblSaldFinalPess.setFont(new java.awt.Font("Fira Sans", 0, 24)); // NOI18N
+        lblSaldFinalPess.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblSaldFinalPess.setText("SALDO");
+        lblSaldFinalPess.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(17, 17, 17)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(105, 105, 105)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(lblSaldFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(26, 26, 26)
+                        .addComponent(lblSald, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(14, 14, 14)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(22, 22, 22)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(lblDesp, javax.swing.GroupLayout.DEFAULT_SIZE, 175, Short.MAX_VALUE)
-                            .addComponent(lblSald, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addContainerGap(33, Short.MAX_VALUE))
+                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(26, 26, 26)
+                        .addComponent(lblDespPess, javax.swing.GroupLayout.DEFAULT_SIZE, 183, Short.MAX_VALUE)))
+                .addGap(25, 25, 25))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(113, 113, 113)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblSaldFinalPess, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(18, 18, 18)
+                .addGap(26, 26, 26)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
-                    .addComponent(lblDesp, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                    .addComponent(lblDespPess, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(27, 27, 27)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
                     .addComponent(lblSald, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(29, 29, 29)
+                .addGap(18, 18, 18)
                 .addComponent(jLabel14)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblSaldFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(lblSaldFinalPess, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(16, Short.MAX_VALUE))
         );
 
-        jPanel2Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {lblDesp, lblSald});
+        jPanel2Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {lblDespPess, lblSald});
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -290,12 +307,13 @@ public class ListarContas extends javax.swing.JInternalFrame {
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(26, Short.MAX_VALUE))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
 
         setBounds(0, 0, 670, 540);
     }// </editor-fold>//GEN-END:initComponents
 
+    @SuppressWarnings("empty-statement")
     private void btnCalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCalActionPerformed
         try {
             listarTransacoes();
@@ -319,11 +337,11 @@ public class ListarContas extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    public static javax.swing.JLabel lblDesp;
+    public static javax.swing.JLabel lblDespPess;
     public static javax.swing.JLabel lblSald;
-    public static javax.swing.JLabel lblSaldFinal;
+    public static javax.swing.JLabel lblSaldFinalPess;
     private javax.swing.JLabel lblUserEmail;
-    public static javax.swing.JTable listaDespRec;
+    public static javax.swing.JTable listaDespesas;
     private javax.swing.JRadioButton rbAno;
     private javax.swing.JRadioButton rbMes;
     private javax.swing.ButtonGroup rendAnoMes;

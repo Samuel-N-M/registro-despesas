@@ -1,10 +1,9 @@
 package br.com.infogest.model;
 
 import br.com.infogest.dao.ConexaoDao;
-import static br.com.infogest.views.ListarRenda.listaDespRec;
+import static br.com.infogest.views.ListarContas.listaDespesas;
 import java.sql.*;
 import javax.swing.table.DefaultTableModel;
-
 public class TransacoesPessDao {
 
     Connection conexao = null;
@@ -12,8 +11,8 @@ public class TransacoesPessDao {
     ResultSet rs = null;
 
     // listar na tabela todas as despesas do mês do usuário
-    public void listarMensal(int mes, int ano) throws SQLException {
-        DefaultTableModel model = (DefaultTableModel) listaDespRec.getModel();
+    public void listaMensal(int mes, int ano) throws SQLException {
+        DefaultTableModel model = (DefaultTableModel) listaDespesas.getModel();
         model.setRowCount(0); // limpar a tabela
 
         Transacoes t = new Transacoes();
@@ -32,14 +31,12 @@ public class TransacoesPessDao {
 
             while (rs.next()) {
                 int id = rs.getInt("id");
-                String nome = rs.getString("nome");
                 String descricao = rs.getString("descricao");
                 int qtd = rs.getInt("qtd");
                 Date data = rs.getDate("data");
-                String endereco = rs.getString("endereco");
                 double valor = rs.getDouble("valor");
 
-                model.addRow(new Object[]{id, nome, descricao, qtd, data, endereco, valor});
+                model.addRow(new Object[]{id, descricao, qtd, data, valor});
             }
         } catch (SQLException e) {
             System.out.println("Error: " + e);
@@ -57,8 +54,8 @@ public class TransacoesPessDao {
     }
     
     // listar na tabela todas as despesas do ano do usuário
-    public void listarAnual(int ano) throws SQLException {
-        DefaultTableModel model = (DefaultTableModel) listaDespRec.getModel();
+    public void listaAnual(int ano) throws SQLException {
+        DefaultTableModel model = (DefaultTableModel) listaDespesas.getModel();
         model.setRowCount(0); // limpar a tabela
 
         Transacoes t = new Transacoes();
@@ -76,14 +73,12 @@ public class TransacoesPessDao {
 
             while (rs.next()) {
                 int id = rs.getInt("id");
-                String nome = rs.getString("nome");
                 String descricao = rs.getString("descricao");
                 int qtd = rs.getInt("qtd");
                 Date data = rs.getDate("data");
-                String endereco = rs.getString("endereco");
                 double valor = rs.getDouble("valor");
 
-                model.addRow(new Object[]{id, nome, descricao, qtd, data, endereco, valor});
+                model.addRow(new Object[]{id, descricao, qtd, data, valor});
             }
         } catch (SQLException e) {
             System.out.println("Error: " + e);
@@ -101,7 +96,7 @@ public class TransacoesPessDao {
     }
     
     // Somar todas as despesas do mês do usuário
-    public double somarDespesas(int mes, int ano) throws SQLException {
+    public double somaDespesas(int mes, int ano) throws SQLException {
         conexao = ConexaoDao.conectar();
 
         Transacoes t = new Transacoes();
@@ -138,7 +133,7 @@ public class TransacoesPessDao {
     }
     
     // Somar todas as despesas do ano do usuário
-    public double somarDespesasAnual(int ano) throws SQLException {
+    public double somaDespesasAnual(int ano) throws SQLException {
         conexao = ConexaoDao.conectar();
 
         Transacoes t = new Transacoes();
@@ -172,4 +167,5 @@ public class TransacoesPessDao {
 
         return somaDespesas;
     }
+    
 }

@@ -2,6 +2,7 @@ package br.com.infogest.views;
 
 import br.com.infogest.dao.ConexaoDao;
 import br.com.infogest.model.Contas;
+import br.com.infogest.model.ContasDao;
 import br.com.infogest.model.Despesas;
 import br.com.infogest.model.DespesasEmpress;
 import br.com.infogest.model.Receitas;
@@ -64,6 +65,10 @@ public class Login extends javax.swing.JFrame {
                     Principal principal = new Principal();
                     principal.setVisible(true);
                     Principal.btnTotal.setEnabled(true);
+                    
+                    ContasDao cont = new ContasDao();
+                    cont.buscarSaldo();
+                    
                     this.dispose();
                 }
 

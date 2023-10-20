@@ -4,7 +4,8 @@
  */
 package br.com.infogest.views;
 
-import br.com.infogest.model.Despesas;
+import br.com.infogest.model.Contas;
+import br.com.infogest.model.ContasDao;
 import br.com.infogest.model.DespesasEmpress;
 import br.com.infogest.model.Receitas;
 import br.com.infogest.model.Usuarios;
@@ -26,6 +27,15 @@ public class Principal extends javax.swing.JFrame {
         initComponents();
         Usuarios user = new Usuarios();
         lblUser.setText(user.getNome());
+
+        ContasDao cont = new ContasDao();
+        if (user.equals("Empresarial")) {
+
+        } else {
+            String saldo = Double.toString(cont.buscarSaldo());
+            lblSaldo.setText(saldo);
+        }
+
     }
 
     /**
@@ -62,7 +72,7 @@ public class Principal extends javax.swing.JFrame {
 
         jLabel3.setFont(new java.awt.Font("Fira Sans", 1, 13)); // NOI18N
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setText("Saldo");
+        jLabel3.setText("Saldo Inicial");
 
         lblUser.setFont(new java.awt.Font("Fira Sans", 1, 18)); // NOI18N
         lblUser.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -82,9 +92,9 @@ public class Principal extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addGap(12, 12, 12)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(lblSaldo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lblUser, javax.swing.GroupLayout.DEFAULT_SIZE, 116, Short.MAX_VALUE))
+                    .addComponent(lblUser, javax.swing.GroupLayout.DEFAULT_SIZE, 116, Short.MAX_VALUE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -229,16 +239,15 @@ public class Principal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        Despesas d = new Despesas();
         Usuarios user = new Usuarios();
         try {
             if (user.getTipo().equals("Pessoal")) {
                 PainelDespesa despesa = new PainelDespesa();
                 despesa.setVisible(true);
                 painel.add(despesa);
-            }else if(user.getTipo().equals("Empresarial")){
+            } else if (user.getTipo().equals("Empresarial")) {
                 DespesasEmpress.setTipo("Despesa");
-                
+
                 PainelDespesaEmpress despEmpress = new PainelDespesaEmpress();
                 despEmpress.setVisible(true);
                 painel.add(despEmpress);
@@ -249,19 +258,15 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void btnTotalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTotalActionPerformed
-        
+        ListarContas listContas = new ListarContas();
+        listContas.setVisible(true);
+        painel.add(listContas);
     }//GEN-LAST:event_btnTotalActionPerformed
 
     private void btnDetRendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDetRendActionPerformed
-        Usuarios user = new Usuarios();
-        
-        if (user.getTipo().equals("Pessoal")) {
-            
-        }else if(user.getTipo().equals("Empresarial")){
-            ListarRenda total = new ListarRenda();
-            total.setVisible(true);
-            painel.add(total);
-        }
+        ListarRenda total = new ListarRenda();
+        total.setVisible(true);
+        painel.add(total);
     }//GEN-LAST:event_btnDetRendActionPerformed
 
     private void menSobActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menSobActionPerformed
@@ -271,7 +276,7 @@ public class Principal extends javax.swing.JFrame {
     private void btnReceitasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReceitasActionPerformed
         try {
             Receitas.setTipo("Receita");
-            
+
             PainelReceitaEmpress receita = new PainelReceitaEmpress();
             receita.setVisible(true);
             painel.add(receita);

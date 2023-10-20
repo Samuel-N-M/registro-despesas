@@ -1,11 +1,11 @@
 package br.com.infogest.model;
 
 import br.com.infogest.dao.ConexaoDao;
-import static br.com.infogest.views.ListarRenda.listaDespRec;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
+import static br.com.infogest.views.ListarRenda.listaDespRec;
 
 public class TransacoesDao {
 
@@ -102,11 +102,7 @@ public class TransacoesDao {
         }
     }
 
-    
-    
     // ABAIXO ESTÁ OS CALCULOS MENSSAIS
-    
-    
     // Somar todas as despesas do mês do usuário
     public double somarDespesas(int mes, int ano) throws SQLException {
         conexao = ConexaoDao.conectar();
@@ -189,17 +185,22 @@ public class TransacoesDao {
         double renda = 0.0;
 
         try {
+
             String sql = "SELECT (SELECT SUM(valor) AS somaReceitas FROM listaEmpress WHERE MONTH(data) = ? AND YEAR(data) = ? AND usuario_id = ? AND tipo = 'Receita') - (SELECT SUM(valor) AS somaDespesas FROM listaEmpress WHERE MONTH(data) = ? AND YEAR(data) = ? AND usuario_id = ? AND tipo = 'Despesa') AS renda";
+
             pst = conexao.prepareStatement(sql);
             pst.setInt(1, mes);
             pst.setInt(2, ano);
             pst.setInt(3, t.getUsuarioID());
-
+            pst.setInt(4, mes);
+            pst.setInt(5, ano);
+            pst.setInt(6, t.getUsuarioID());
             rs = pst.executeQuery();
 
             if (rs.next()) {
                 renda = rs.getDouble("renda");
             }
+
         } catch (SQLException e) {
             System.out.println("Error: " + e);
         } finally {
@@ -253,15 +254,8 @@ public class TransacoesDao {
 
         return tipos;
     }
-    
-    
-    
-    
+
     // ABAIXO ESTÁ OS CALCULOS ANUAIS
-    
-    
-    
-    
     // Somar todas as despesas do ano do usuário
     public double somarDespesasAnual(int ano) throws SQLException {
         conexao = ConexaoDao.conectar();
@@ -297,7 +291,7 @@ public class TransacoesDao {
 
         return somaDespesas;
     }
-    
+
     // Somar todas as Receitas do ano do usuário
     public double somarReceitasAnuais(int ano) throws SQLException {
         conexao = ConexaoDao.conectar();
@@ -333,7 +327,7 @@ public class TransacoesDao {
 
         return somaReceitas;
     }
-    
+
     // Calcular qual foi a renda anual do usuário
     public double calculoRendaAnual(int ano) throws SQLException {
         conexao = ConexaoDao.conectar();
@@ -342,11 +336,13 @@ public class TransacoesDao {
         double renda = 0.0;
 
         try {
-            String sql = "SELECT (SELECT SUM(valor) AS somaReceitas FROM listaEmpress WHERE YEAR(data) = ? AND usuario_id = ? AND tipo = 'Receita') - (SELECT SUM(valor) AS somaDespesas FROM listaEmpress WHERE MONTH(data) = ? AND YEAR(data) = ? AND usuario_id = ? AND tipo = 'Despesa') AS renda";
+            String sql = "SELECT (SELECT SUM(valor) AS somaReceitas FROM listaEmpress WHERE YEAR(data) = ? AND usuario_id = ? AND tipo = 'Receita') - (SELECT SUM(valor) AS somaDespesas FROM listaEmpress WHERE YEAR(data) = ? AND usuario_id = ? AND tipo = 'Despesa') AS renda";
+
             pst = conexao.prepareStatement(sql);
             pst.setInt(1, ano);
             pst.setInt(2, t.getUsuarioID());
-
+            pst.setInt(3, ano);
+            pst.setInt(4, t.getUsuarioID());
             rs = pst.executeQuery();
 
             if (rs.next()) {
@@ -368,8 +364,7 @@ public class TransacoesDao {
 
         return renda;
     }
-    
-    
+
     public List<String> Tipos(int ano) throws SQLException {
         List<String> tipos = new ArrayList<>();
 

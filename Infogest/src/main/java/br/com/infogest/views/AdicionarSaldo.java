@@ -4,13 +4,12 @@
  */
 package br.com.infogest.views;
 
-import br.com.infogest.dao.ConexaoDao;
 import br.com.infogest.model.Contas;
-import java.awt.HeadlessException;
+import br.com.infogest.model.ContasDao;
+import br.com.infogest.model.Usuarios;
 import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -18,45 +17,60 @@ import javax.swing.JOptionPane;
  */
 public class AdicionarSaldo extends javax.swing.JFrame {
 
+//    public void salvarSald() throws SQLException {
+//        Connection conexao = null;
+//        PreparedStatement pst = null;
+//        ResultSet rs = null;
+//        
+//        Contas c = new Contas();
+//        
+//        try {
+//            conexao = ConexaoDao.conectar();
+//            
+//            String sql = "INSERT INTO contas_bancarias(saldo, usuario_id) VALUES (?, ?)";
+//            
+//            pst = conexao.prepareStatement(sql);
+//            pst.setDouble(1, Double.parseDouble(textSald.getText()));
+//            pst.setInt(2, c.getUsuario_id());
+//            
+//            int salvo = pst.executeUpdate();
+//            
+//            if(salvo > 0){
+//                JOptionPane.showMessageDialog(null, "Salvo com sucesso!");
+//                this.dispose();
+//            }else{
+//                JOptionPane.showMessageDialog(null, "Não foi possivel salvar, por favor tente novamente mais tarde!");
+//            }
+//        } catch (SQLException e) {
+//            System.out.println(e.getMessage());
+//        }finally{
+//            if (pst != null) {
+//                pst.close();
+//            }
+//            if (conexao != null) {
+//                conexao.close();
+//            }
+//            if (rs != null) {
+//                rs.close();
+//            }
+//        }
+//
+//    }
+    public void addSaldo() throws SQLException {
+        Principal principal = new Principal();
+        Usuarios user = new Usuarios();
+        ContasDao contaDao = new ContasDao();
 
-    public void salvarSald() throws SQLException {
-        Connection conexao = null;
-        PreparedStatement pst = null;
-        ResultSet rs = null;
-        
-        Contas c = new Contas();
-        
-        try {
-            conexao = ConexaoDao.conectar();
-            
-            String sql = "INSERT INTO contas_bancarias(saldo, usuario_id) VALUES (?, ?)";
-            
-            pst = conexao.prepareStatement(sql);
-            pst.setDouble(1, Double.parseDouble(textSald.getText()));
-            pst.setInt(2, c.getUsuario_id());
-            
-            int salvo = pst.executeUpdate();
-            
-            if(salvo > 0){
-                JOptionPane.showMessageDialog(null, "Salvo com sucesso!");
-                this.dispose();
-            }else{
-                JOptionPane.showMessageDialog(null, "Não foi possivel salvar, por favor tente novamente mais tarde!");
-            }
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }finally{
-            if (pst != null) {
-                pst.close();
-            }
-            if (conexao != null) {
-                conexao.close();
-            }
-            if (rs != null) {
-                rs.close();
-            }
+        if (user.getTipo().equals("Empresarial")) {
+
+        } else {
+//            String saldo = Double.toString(contaDao.addSaldo(textSald.getText()));
+            Contas.setSaldo(Double.parseDouble(textSald.getText()));
+            contaDao.addSaldo();
+            String saldo = Double.toString(contaDao.buscarSaldo());
+            Principal.lblSaldo.setText(saldo);
+            this.dispose();
         }
-
     }
 
     /**
@@ -127,7 +141,7 @@ public class AdicionarSaldo extends javax.swing.JFrame {
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
         try {
-            salvarSald();
+            addSaldo();
         } catch (SQLException ex) {
             Logger.getLogger(AdicionarSaldo.class.getName()).log(Level.SEVERE, null, ex);
         }

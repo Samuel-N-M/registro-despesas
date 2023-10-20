@@ -2,7 +2,7 @@ package br.com.infogest.model;
 
 public class Contas {
     private int id;
-    private double saldo;
+    private static double saldo;
     private static int usuario_id;
 
     public int getId() {
@@ -17,8 +17,8 @@ public class Contas {
         return saldo;
     }
 
-    public void setSaldo(double saldo) {
-        this.saldo = saldo;
+    public static void setSaldo(double saldo) {
+        Contas.saldo = saldo;
     }
 
     public int getUsuario_id() {

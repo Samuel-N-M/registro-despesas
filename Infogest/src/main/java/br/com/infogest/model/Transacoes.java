@@ -98,5 +98,23 @@ public class Transacoes {
     }
     
     
+    // -----------------------------------------------------
+    
+    
+    
+    
+    private static double somaDespesa;
+
+    public double getSomaDespesa() {
+        return somaDespesa;
+    }
+
+    public static void setSomaDespesa(double somaDespesa) {
+        Transacoes.somaDespesa = somaDespesa;
+    }
+    
+    
+    
+    
     
 }

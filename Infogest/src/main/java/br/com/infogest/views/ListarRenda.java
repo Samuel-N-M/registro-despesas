@@ -9,7 +9,6 @@ import br.com.infogest.model.CorTabela;
 import br.com.infogest.model.Transacoes;
 import br.com.infogest.model.TransacoesDao;
 import br.com.infogest.model.Usuarios;
-import static br.com.infogest.views.ListarContas.lblSald;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.sql.SQLException;
@@ -34,16 +33,18 @@ public class ListarRenda extends javax.swing.JInternalFrame {
 
             String somaRec = Double.toString(transacoes.somarReceitas(Integer.parseInt(comboxMes.getSelectedItem().toString()), Integer.parseInt(comboxAno.getSelectedItem().toString())));
             lblRec.setText(somaRec);
-            
+
             String renda = Double.toString(transacoes.calculoRenda(Integer.parseInt(comboxMes.getSelectedItem().toString()), Integer.parseInt(comboxAno.getSelectedItem().toString())));
             lblRend.setText(renda);
-            
+
             String saldo = Double.toString(c.getSaldo());
             lblSald.setText(saldo);
-            
+
             double somaDespesa = transacoes.somarDespesas(Integer.parseInt(comboxMes.getSelectedItem().toString()), Integer.parseInt(comboxAno.getSelectedItem().toString()));
             double somaReceita = transacoes.somarReceitas(Integer.parseInt(comboxMes.getSelectedItem().toString()), Integer.parseInt(comboxAno.getSelectedItem().toString()));
-            String saldoFinal = Double.toString((somaReceita - somaDespesa) + saldo);
+            String saldoFinal = Double.toString((somaReceita - somaDespesa) + c.getSaldo());
+            lblSaldFinal.setText(saldoFinal);
+
             // Obter tipos do banco de dados
             List<String> tipos = transacoes.Tipos(Integer.parseInt(comboxMes.getSelectedItem().toString()), Integer.parseInt(comboxAno.getSelectedItem().toString()));
 
@@ -52,7 +53,7 @@ public class ListarRenda extends javax.swing.JInternalFrame {
 
         } else if (rbAno.isSelected()) {
             transacoes.listarAnual(Integer.parseInt(comboxAno.getSelectedItem().toString()));
-            
+
             String somaDesp = Double.toString(transacoes.somarDespesasAnual(Integer.parseInt(comboxAno.getSelectedItem().toString())));
             lblDesp.setText(somaDesp);
 
@@ -62,6 +63,11 @@ public class ListarRenda extends javax.swing.JInternalFrame {
             String renda = Double.toString(transacoes.calculoRendaAnual(Integer.parseInt(comboxAno.getSelectedItem().toString())));
             lblRend.setText(renda);
 
+            double somaDespesa = transacoes.somarDespesasAnual(Integer.parseInt(comboxAno.getSelectedItem().toString()));
+            double somaReceita = transacoes.somarReceitasAnuais(Integer.parseInt(comboxAno.getSelectedItem().toString()));
+            String saldoFinal = Double.toString((somaReceita - somaDespesa) + c.getSaldo());
+            lblSaldFinal.setText(saldoFinal);
+            
             // Obter tipos do banco de dados
             List<String> tipos = transacoes.Tipos(Integer.parseInt(comboxAno.getSelectedItem().toString()));
 
@@ -87,7 +93,7 @@ public class ListarRenda extends javax.swing.JInternalFrame {
                 }
             }
         });
-        
+
         Usuarios user = new Usuarios();
         lblUserEmail.setText(user.getEmail());
 

@@ -57,12 +57,15 @@ public class AdicionarSaldo extends javax.swing.JFrame {
 //
 //    }
     public void addSaldo() throws SQLException {
-        Principal principal = new Principal();
         Usuarios user = new Usuarios();
         ContasDao contaDao = new ContasDao();
 
         if (user.getTipo().equals("Empresarial")) {
-
+            Contas.setSaldo(Double.parseDouble(textSald.getText()));
+            contaDao.addSaldo();
+            String saldo = Double.toString(contaDao.buscarSaldo());
+            Principal.lblSaldo.setText(saldo);
+            this.dispose();
         } else {
 //            String saldo = Double.toString(contaDao.addSaldo(textSald.getText()));
             Contas.setSaldo(Double.parseDouble(textSald.getText()));

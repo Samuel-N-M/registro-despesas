@@ -64,7 +64,7 @@ public class Login extends javax.swing.JFrame {
                 } else {
                     Principal principal = new Principal();
                     principal.setVisible(true);
-                    Principal.btnTotal.setEnabled(true);
+                    Principal.btnDetalheCont.setEnabled(true);
                     
                     ContasDao cont = new ContasDao();
                     cont.buscarSaldo();

@@ -88,6 +88,7 @@ public class Cadastro extends javax.swing.JFrame {
                     } else {
                         Principal principal = new Principal();
                         principal.setVisible(true);
+                        Principal.btnDetalheCont.setEnabled(true);
                         this.dispose();
                     }
                 } else {

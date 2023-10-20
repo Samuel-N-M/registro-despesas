@@ -54,7 +54,7 @@ public class Principal extends javax.swing.JFrame {
         lblSaldo = new javax.swing.JLabel();
         btnReceitas = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
-        btnTotal = new javax.swing.JButton();
+        btnDetalheCont = new javax.swing.JButton();
         btnDetRend = new javax.swing.JButton();
         painel = new javax.swing.JDesktopPane();
         jButton4 = new javax.swing.JButton();
@@ -131,12 +131,12 @@ public class Principal extends javax.swing.JFrame {
             }
         });
 
-        btnTotal.setText("Detalhe Contas");
-        btnTotal.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnTotal.setEnabled(false);
-        btnTotal.addActionListener(new java.awt.event.ActionListener() {
+        btnDetalheCont.setText("Detalhe Contas");
+        btnDetalheCont.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnDetalheCont.setEnabled(false);
+        btnDetalheCont.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnTotalActionPerformed(evt);
+                btnDetalheContActionPerformed(evt);
             }
         });
 
@@ -204,7 +204,7 @@ public class Principal extends javax.swing.JFrame {
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addComponent(btnDetRend, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnTotal, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnDetalheCont, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnReceitas, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -227,7 +227,7 @@ public class Principal extends javax.swing.JFrame {
                         .addGap(32, 32, 32)
                         .addComponent(btnReceitas, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
                         .addGap(30, 30, 30)
-                        .addComponent(btnTotal, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
+                        .addComponent(btnDetalheCont, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
                         .addGap(35, 35, 35)
                         .addComponent(btnDetRend, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
                         .addGap(31, 31, 31)
@@ -257,11 +257,11 @@ public class Principal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    private void btnTotalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTotalActionPerformed
+    private void btnDetalheContActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDetalheContActionPerformed
         ListarContas listContas = new ListarContas();
         listContas.setVisible(true);
         painel.add(listContas);
-    }//GEN-LAST:event_btnTotalActionPerformed
+    }//GEN-LAST:event_btnDetalheContActionPerformed
 
     private void btnDetRendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDetRendActionPerformed
         ListarRenda total = new ListarRenda();
@@ -336,8 +336,8 @@ public class Principal extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public static javax.swing.JButton btnDetRend;
+    public static javax.swing.JButton btnDetalheCont;
     public static javax.swing.JButton btnReceitas;
-    public static javax.swing.JButton btnTotal;
     public static javax.swing.JButton jButton2;
     private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;

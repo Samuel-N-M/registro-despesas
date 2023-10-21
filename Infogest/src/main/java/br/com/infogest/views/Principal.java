@@ -173,7 +173,7 @@ public class Principal extends javax.swing.JFrame {
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addComponent(painel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addContainerGap(30, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -194,7 +194,7 @@ public class Principal extends javax.swing.JFrame {
                         .addGap(15, 15, 15))))
         );
 
-        setBounds(0, 0, 1010, 630);
+        setBounds(0, 0, 1022, 630);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnDespesasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDespesasActionPerformed
@@ -211,7 +211,7 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnDespesasActionPerformed
 
     private void btnDetalheContasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDetalheContasActionPerformed
-        ListarRenda renda = new ListarRenda();
+        ClacularContas renda = new ClacularContas();
         renda.setVisible(true);
         painel.add(renda);
     }//GEN-LAST:event_btnDetalheContasActionPerformed

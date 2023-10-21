@@ -17,7 +17,7 @@ import java.util.List;
  *
  * @author samuel
  */
-public class ListarRenda extends javax.swing.JInternalFrame {
+public class ClacularContas extends javax.swing.JInternalFrame {
 
     public void listarMovimentacoes() throws SQLException {
         MovimentacaoDao movimentacoes = new MovimentacaoDao();
@@ -27,13 +27,13 @@ public class ListarRenda extends javax.swing.JInternalFrame {
             movimentacoes.movimentacoesMensais(Integer.parseInt(comboxMes.getSelectedItem().toString()), Integer.parseInt(comboxAno.getSelectedItem().toString()));
 
             String despesa = Double.toString(movimentacoes.somarDespesas(Integer.parseInt(comboxMes.getSelectedItem().toString()), Integer.parseInt(comboxAno.getSelectedItem().toString())));
-            ListarRenda.lblDesp.setText(despesa);
+            ClacularContas.lblDesp.setText(despesa);
 
             String receita = Double.toString(movimentacoes.somarReceitas(Integer.parseInt(comboxMes.getSelectedItem().toString()), Integer.parseInt(comboxAno.getSelectedItem().toString())));
-            ListarRenda.lblRec.setText(receita);
+            ClacularContas.lblRec.setText(receita);
 
             String renda = Double.toString(movimentacoes.rendaMensal(Integer.parseInt(comboxMes.getSelectedItem().toString()), Integer.parseInt(comboxAno.getSelectedItem().toString())));
-            ListarRenda.lblRend.setText(renda);
+            ClacularContas.lblTotal.setText(renda);
 
             // Obter tipos do banco de dados
             List<String> tipos = movimentacoes.Tipos(Integer.parseInt(comboxMes.getSelectedItem().toString()), Integer.parseInt(comboxAno.getSelectedItem().toString()));
@@ -45,13 +45,13 @@ public class ListarRenda extends javax.swing.JInternalFrame {
             movimentacoes.movimentacoesAnuais(Integer.parseInt(comboxAno.getSelectedItem().toString()));
             
             String despesa = Double.toString(movimentacoes.somarDespesasAnuais(Integer.parseInt(comboxAno.getSelectedItem().toString())));
-            ListarRenda.lblDesp.setText(despesa);
+            ClacularContas.lblDesp.setText(despesa);
 
             String receita = Double.toString(movimentacoes.somarReceitasAnuais(Integer.parseInt(comboxAno.getSelectedItem().toString())));
-            ListarRenda.lblRec.setText(receita);
+            ClacularContas.lblRec.setText(receita);
 
             String renda = Double.toString(movimentacoes.rendaAnual(Integer.parseInt(comboxAno.getSelectedItem().toString())));
-            ListarRenda.lblRend.setText(renda);
+            ClacularContas.lblTotal.setText(renda);
             
             // Obter tipos do banco de dados
             List<String> tipos = movimentacoes.Tipos(Integer.parseInt(comboxAno.getSelectedItem().toString()));
@@ -64,7 +64,7 @@ public class ListarRenda extends javax.swing.JInternalFrame {
     /**
      * Creates new form Total
      */
-    public ListarRenda() {
+    public ClacularContas() {
         initComponents();
 
         rbAno.addItemListener(new ItemListener() {
@@ -113,7 +113,7 @@ public class ListarRenda extends javax.swing.JInternalFrame {
         jLabel8 = new javax.swing.JLabel();
         lblRec = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
-        lblRend = new javax.swing.JLabel();
+        lblTotal = new javax.swing.JLabel();
 
         setClosable(true);
         setPreferredSize(new java.awt.Dimension(559, 464));
@@ -244,13 +244,12 @@ public class ListarRenda extends javax.swing.JInternalFrame {
 
         jLabel11.setFont(new java.awt.Font("Fira Sans", 1, 13)); // NOI18N
         jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel11.setText("Renda");
+        jLabel11.setText("TOTAL");
 
-        lblRend.setFont(new java.awt.Font("Fira Sans", 0, 24)); // NOI18N
-        lblRend.setForeground(new java.awt.Color(0, 153, 0));
-        lblRend.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblRend.setText("RENDA");
-        lblRend.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        lblTotal.setFont(new java.awt.Font("Fira Sans", 0, 24)); // NOI18N
+        lblTotal.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblTotal.setText("TOTAL");
+        lblTotal.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -262,7 +261,7 @@ public class ListarRenda extends javax.swing.JInternalFrame {
                         .addGap(106, 106, 106)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(lblRend, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(lblTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(20, 20, 20)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -292,7 +291,7 @@ public class ListarRenda extends javax.swing.JInternalFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(23, 23, 23)
-                        .addComponent(lblRend, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(lblTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jLabel11))
                 .addGap(17, 17, 17))
         );
@@ -353,7 +352,7 @@ public class ListarRenda extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane jScrollPane1;
     public static javax.swing.JLabel lblDesp;
     public static javax.swing.JLabel lblRec;
-    public static javax.swing.JLabel lblRend;
+    public static javax.swing.JLabel lblTotal;
     private javax.swing.JLabel lblUserEmail;
     public static javax.swing.JTable listagem;
     private javax.swing.JRadioButton rbAno;

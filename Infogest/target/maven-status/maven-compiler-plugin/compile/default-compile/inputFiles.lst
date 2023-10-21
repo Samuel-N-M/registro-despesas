@@ -1,8 +1,8 @@
 /home/samuel/GitHub/registro-despesas/Infogest/src/main/java/br/com/infogest/model/dtm/Usuario.java
 /home/samuel/GitHub/registro-despesas/Infogest/src/main/java/br/com/infogest/model/dtm/Receitas.java
+/home/samuel/GitHub/registro-despesas/Infogest/src/main/java/br/com/infogest/views/ClacularContas.java
 /home/samuel/GitHub/registro-despesas/Infogest/src/main/java/br/com/infogest/model/dtm/Despesas.java
 /home/samuel/GitHub/registro-despesas/Infogest/src/main/java/br/com/infogest/views/Principal.java
-/home/samuel/GitHub/registro-despesas/Infogest/src/main/java/br/com/infogest/views/PainelReceitaEmpress.java
 /home/samuel/GitHub/registro-despesas/Infogest/src/main/java/br/com/infogest/Infogest.java
 /home/samuel/GitHub/registro-despesas/Infogest/src/main/java/br/com/infogest/model/dao/MovimentacaoDao.java
 /home/samuel/GitHub/registro-despesas/Infogest/src/main/java/br/com/infogest/model/dao/DespesaDao.java
@@ -17,7 +17,6 @@
 /home/samuel/GitHub/registro-despesas/Infogest/src/main/java/br/com/infogest/model/dao/ReceitaDao.java
 /home/samuel/GitHub/registro-despesas/Infogest/src/main/java/br/com/infogest/model/dtm/DespesasEmpress.java
 /home/samuel/GitHub/registro-despesas/Infogest/src/main/java/br/com/infogest/model/dtm/Transacoes.java
-/home/samuel/GitHub/registro-despesas/Infogest/src/main/java/br/com/infogest/views/ListarRenda.java
 /home/samuel/GitHub/registro-despesas/Infogest/src/main/java/br/com/infogest/views/PainelReceita.java
 /home/samuel/GitHub/registro-despesas/Infogest/src/main/java/br/com/infogest/views/Cadastro.java
 /home/samuel/GitHub/registro-despesas/Infogest/src/main/java/br/com/infogest/model/dao/LoginDao.java

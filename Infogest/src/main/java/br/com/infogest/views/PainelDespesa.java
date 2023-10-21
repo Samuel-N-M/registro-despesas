@@ -4,8 +4,8 @@
  */
 package br.com.infogest.views;
 
-import br.com.infogest.model.DespDao;
-import br.com.infogest.model.Despesas;
+import br.com.infogest.model.dao.DespesaDao;
+import br.com.infogest.model.dtm.Despesas;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,13 +22,12 @@ public final class PainelDespesa extends javax.swing.JInternalFrame {
         DefaultTableModel model = (DefaultTableModel) listaDespesa.getModel();
         model.setNumRows(0);
 
-        DespDao despesaDao = new DespDao();
+        DespesaDao despesaDao = new DespesaDao();
 
         for (Despesas d : despesaDao.listarDesp()) {
             model.addRow(new Object[]{
                 d.getId(),
                 d.getDescricao(),
-                d.getQtd(),
                 d.getData(),
                 d.getValor()
             });
@@ -54,9 +53,7 @@ public final class PainelDespesa extends javax.swing.JInternalFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        textQtd = new javax.swing.JTextField();
         textVal = new javax.swing.JTextField();
         textDesc = new javax.swing.JTextField();
         btnAdd = new javax.swing.JButton();
@@ -72,19 +69,17 @@ public final class PainelDespesa extends javax.swing.JInternalFrame {
 
         jLabel1.setText("* Descrição");
 
-        jLabel2.setText("* Quantidade");
-
         jLabel3.setText("* Valor");
-
-        textQtd.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                textQtdActionPerformed(evt);
-            }
-        });
 
         textVal.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 textValActionPerformed(evt);
+            }
+        });
+
+        textDesc.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                textDescActionPerformed(evt);
             }
         });
 
@@ -112,23 +107,19 @@ public final class PainelDespesa extends javax.swing.JInternalFrame {
                 .addGap(35, 35, 35)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(18, 18, 18)
+                        .addComponent(textDesc)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel3)
+                        .addGap(18, 18, 18)
+                        .addComponent(textVal, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(65, 65, 65))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(btnAdd)
                         .addGap(18, 18, 18)
                         .addComponent(btnEx, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(31, 429, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel3))
-                        .addGap(12, 12, 12)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(textDesc)
-                            .addComponent(textVal, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel2)
-                        .addGap(18, 18, 18)
-                        .addComponent(textQtd, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(53, 53, 53))))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
         jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnAdd, btnEx});
@@ -136,18 +127,13 @@ public final class PainelDespesa extends javax.swing.JInternalFrame {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(31, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(textDesc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel2)
-                        .addComponent(textQtd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
+                .addContainerGap(55, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(textVal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(29, 29, 29)
+                    .addComponent(textVal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(textDesc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
+                .addGap(46, 46, 46)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnEx)
                     .addComponent(btnAdd))
@@ -159,11 +145,11 @@ public final class PainelDespesa extends javax.swing.JInternalFrame {
 
             },
             new String [] {
-                "ID", "DESCRIÇÃO", "QTD", "DATA", "VALOR"
+                "ID", "DESCRIÇÃO", "DATA", "VALOR"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -202,10 +188,6 @@ public final class PainelDespesa extends javax.swing.JInternalFrame {
         setBounds(0, 0, 670, 540);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void textQtdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textQtdActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_textQtdActionPerformed
-
     private void textValActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textValActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_textValActionPerformed
@@ -213,20 +195,18 @@ public final class PainelDespesa extends javax.swing.JInternalFrame {
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         try {
             Despesas d = new Despesas();
-            DespDao desp = new DespDao();
+            DespesaDao desp = new DespesaDao();
 
             // Validar compos obrigatórios
-            if ((textDesc.getText().isEmpty()) || (textQtd.getText().isEmpty()) || (textVal.getText().isEmpty())) {
+            if ((textDesc.getText().isEmpty()) || (textVal.getText().isEmpty())) {
                 JOptionPane.showMessageDialog(null, "Preencha todos os campos obrigatórios *");
             } else {
                 d.setDescricao(textDesc.getText());
-                d.setQtd(Integer.parseInt(textQtd.getText()));
                 d.setValor(Double.parseDouble(textVal.getText()));
 
                 desp.Adicionar(d);
 
                 textDesc.setText("");
-                textQtd.setText("");
                 textVal.setText("");
 
                 listarTabela();
@@ -245,11 +225,11 @@ public final class PainelDespesa extends javax.swing.JInternalFrame {
         try {
             if (listaDespesa.getSelectedRow() != -1) {
                 Despesas d = new Despesas();
-                DespDao desp = new DespDao();
+                DespesaDao desp = new DespesaDao();
 
                 d.setId((int) listaDespesa.getValueAt(listaDespesa.getSelectedRow(), 0));
 
-                desp.ExcluirDespItem(d);
+                desp.ExcluirDespesa(d);
 
                 listarTabela();
             } else {
@@ -268,18 +248,20 @@ public final class PainelDespesa extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_listaDespesaMouseReleased
 
+    private void textDescActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textDescActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_textDescActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnEx;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     public static javax.swing.JTable listaDespesa;
     private javax.swing.JTextField textDesc;
-    private javax.swing.JTextField textQtd;
     private javax.swing.JTextField textVal;
     // End of variables declaration//GEN-END:variables
 }

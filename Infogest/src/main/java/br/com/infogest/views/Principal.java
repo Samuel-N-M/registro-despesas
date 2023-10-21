@@ -4,11 +4,7 @@
  */
 package br.com.infogest.views;
 
-import br.com.infogest.model.Contas;
-import br.com.infogest.model.ContasDao;
-import br.com.infogest.model.DespesasEmpress;
-import br.com.infogest.model.Receitas;
-import br.com.infogest.model.Usuarios;
+import br.com.infogest.model.dtm.Usuario;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -25,17 +21,8 @@ public class Principal extends javax.swing.JFrame {
      */
     public Principal() {
         initComponents();
-        Usuarios user = new Usuarios();
+        Usuario user = new Usuario();
         lblUser.setText(user.getNome());
-
-        ContasDao cont = new ContasDao();
-        if (user.equals("Empresarial")) {
-
-        } else {
-            String saldo = Double.toString(cont.buscarSaldo());
-            lblSaldo.setText(saldo);
-        }
-
     }
 
     /**
@@ -51,13 +38,11 @@ public class Principal extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         lblUser = new javax.swing.JLabel();
-        lblSaldo = new javax.swing.JLabel();
+        lblEmail = new javax.swing.JLabel();
         btnReceitas = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        btnDetalheCont = new javax.swing.JButton();
-        btnDetRend = new javax.swing.JButton();
+        btnDespesas = new javax.swing.JButton();
+        btnDetalheContas = new javax.swing.JButton();
         painel = new javax.swing.JDesktopPane();
-        jButton4 = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         men = new javax.swing.JMenu();
         menSob = new javax.swing.JMenuItem();
@@ -72,16 +57,14 @@ public class Principal extends javax.swing.JFrame {
 
         jLabel3.setFont(new java.awt.Font("Fira Sans", 1, 13)); // NOI18N
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setText("Saldo Inicial");
+        jLabel3.setText("E-mail");
 
         lblUser.setFont(new java.awt.Font("Fira Sans", 1, 18)); // NOI18N
         lblUser.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblUser.setText("Usuário");
 
-        lblSaldo.setFont(new java.awt.Font("Fira Sans", 0, 14)); // NOI18N
-        lblSaldo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblSaldo.setText("SALDO");
-        lblSaldo.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        lblEmail.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblEmail.setText("email do usuario");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -90,61 +73,52 @@ public class Principal extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addGap(12, 12, 12)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblSaldo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lblUser, javax.swing.GroupLayout.DEFAULT_SIZE, 116, Short.MAX_VALUE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblEmail, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
+            .addComponent(lblUser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(lblUser)
-                .addGap(30, 30, 30)
-                .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblSaldo, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(33, 33, 33))
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(15, 15, 15)
-                .addComponent(jLabel1)
-                .addContainerGap(15, Short.MAX_VALUE))
+                .addComponent(lblUser, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(lblEmail))
+                    .addComponent(jLabel1))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         btnReceitas.setText("Receitas");
+        btnReceitas.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         btnReceitas.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnReceitas.setEnabled(false);
         btnReceitas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnReceitasActionPerformed(evt);
             }
         });
 
-        jButton2.setText("Despesas");
-        jButton2.setToolTipText("Listar Despesas");
-        jButton2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btnDespesas.setText("Despesas");
+        btnDespesas.setToolTipText("Listar Despesas");
+        btnDespesas.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btnDespesas.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnDespesas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btnDespesasActionPerformed(evt);
             }
         });
 
-        btnDetalheCont.setText("Detalhe Contas");
-        btnDetalheCont.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnDetalheCont.setEnabled(false);
-        btnDetalheCont.addActionListener(new java.awt.event.ActionListener() {
+        btnDetalheContas.setText("Detalhar renda");
+        btnDetalheContas.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btnDetalheContas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDetalheContActionPerformed(evt);
-            }
-        });
-
-        btnDetRend.setText("Detalhar renda");
-        btnDetRend.setEnabled(false);
-        btnDetRend.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDetRendActionPerformed(evt);
+                btnDetalheContasActionPerformed(evt);
             }
         });
 
@@ -160,14 +134,6 @@ public class Principal extends javax.swing.JFrame {
             painelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 540, Short.MAX_VALUE)
         );
-
-        jButton4.setText("Adicionar Saldo");
-        jButton4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
-            }
-        });
 
         men.setText("Menu");
         men.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -200,14 +166,11 @@ public class Principal extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(22, 22, 22)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(btnDetRend, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnDetalheCont, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnReceitas, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(btnDetalheContas, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 272, Short.MAX_VALUE)
+                    .addComponent(btnDespesas, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnReceitas, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addComponent(painel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(18, Short.MAX_VALUE))
@@ -218,56 +181,40 @@ public class Principal extends javax.swing.JFrame {
                 .addGap(21, 21, 21)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(painel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(30, 30, 30)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(32, 32, 32)
-                        .addComponent(btnReceitas, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
-                        .addGap(30, 30, 30)
-                        .addComponent(btnDetalheCont, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
-                        .addGap(35, 35, 35)
-                        .addComponent(btnDetRend, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
-                        .addGap(31, 31, 31)
-                        .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
-                        .addGap(60, 60, 60))))
+                        .addGap(69, 69, 69)
+                        .addComponent(btnDespesas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(38, 38, 38)
+                        .addComponent(btnReceitas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(49, 49, 49)
+                        .addComponent(btnDetalheContas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(94, 94, 94))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(painel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(15, 15, 15))))
         );
 
         setBounds(0, 0, 1010, 630);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        Usuarios user = new Usuarios();
-        try {
-            if (user.getTipo().equals("Pessoal")) {
-                PainelDespesa despesa = new PainelDespesa();
-                despesa.setVisible(true);
-                painel.add(despesa);
-            } else if (user.getTipo().equals("Empresarial")) {
-                DespesasEmpress.setTipo("Despesa");
+    private void btnDespesasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDespesasActionPerformed
 
-                PainelDespesaEmpress despEmpress = new PainelDespesaEmpress();
-                despEmpress.setVisible(true);
-                painel.add(despEmpress);
-            }
+        try {
+            PainelDespesa despesa = new PainelDespesa();
+            despesa.setVisible(true);
+            painel.add(despesa);
         } catch (SQLException ex) {
             Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }//GEN-LAST:event_jButton2ActionPerformed
 
-    private void btnDetalheContActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDetalheContActionPerformed
-        ListarContas listContas = new ListarContas();
-        listContas.setVisible(true);
-        painel.add(listContas);
-    }//GEN-LAST:event_btnDetalheContActionPerformed
 
-    private void btnDetRendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDetRendActionPerformed
-        ListarRenda total = new ListarRenda();
-        total.setVisible(true);
-        painel.add(total);
-    }//GEN-LAST:event_btnDetRendActionPerformed
+    }//GEN-LAST:event_btnDespesasActionPerformed
+
+    private void btnDetalheContasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDetalheContasActionPerformed
+        ListarRenda renda = new ListarRenda();
+        renda.setVisible(true);
+        painel.add(renda);
+    }//GEN-LAST:event_btnDetalheContasActionPerformed
 
     private void menSobActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menSobActionPerformed
         // TODO add your handling code here:
@@ -275,9 +222,7 @@ public class Principal extends javax.swing.JFrame {
 
     private void btnReceitasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReceitasActionPerformed
         try {
-            Receitas.setTipo("Receita");
-
-            PainelReceitaEmpress receita = new PainelReceitaEmpress();
+            PainelReceita receita = new PainelReceita();
             receita.setVisible(true);
             painel.add(receita);
         } catch (SQLException ex) {
@@ -292,11 +237,6 @@ public class Principal extends javax.swing.JFrame {
             System.exit(0);
         }
     }//GEN-LAST:event_menSairActionPerformed
-
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        AdicionarSaldo addSald = new AdicionarSaldo();
-        addSald.setVisible(true);
-    }//GEN-LAST:event_jButton4ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -335,16 +275,14 @@ public class Principal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    public static javax.swing.JButton btnDetRend;
-    public static javax.swing.JButton btnDetalheCont;
+    public static javax.swing.JButton btnDespesas;
+    public static javax.swing.JButton btnDetalheContas;
     public static javax.swing.JButton btnReceitas;
-    public static javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
-    public static javax.swing.JLabel lblSaldo;
+    public static javax.swing.JLabel lblEmail;
     public static javax.swing.JLabel lblUser;
     private javax.swing.JMenu men;
     private javax.swing.JMenuItem menSair;

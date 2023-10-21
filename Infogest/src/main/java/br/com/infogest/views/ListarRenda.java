@@ -4,11 +4,10 @@
  */
 package br.com.infogest.views;
 
-import br.com.infogest.model.Contas;
-import br.com.infogest.model.CorTabela;
-import br.com.infogest.model.Transacoes;
-import br.com.infogest.model.TransacoesDao;
-import br.com.infogest.model.Usuarios;
+import br.com.infogest.model.dao.CorTabela;
+import br.com.infogest.model.dao.MovimentacaoDao;
+import br.com.infogest.model.dtm.Movimentacao;
+import br.com.infogest.model.dtm.Usuario;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.sql.SQLException;
@@ -20,59 +19,45 @@ import java.util.List;
  */
 public class ListarRenda extends javax.swing.JInternalFrame {
 
-    public void listarTransacoes() throws SQLException {
-        TransacoesDao transacoes = new TransacoesDao();
-        Transacoes t = new Transacoes();
-        Contas c = new Contas();
+    public void listarMovimentacoes() throws SQLException {
+        MovimentacaoDao movimentacoes = new MovimentacaoDao();
+        Movimentacao m = new Movimentacao();
 
         if (rbMes.isSelected()) {
-            transacoes.listarMensal(Integer.parseInt(comboxMes.getSelectedItem().toString()), Integer.parseInt(comboxAno.getSelectedItem().toString()));
+            movimentacoes.movimentacoesMensais(Integer.parseInt(comboxMes.getSelectedItem().toString()), Integer.parseInt(comboxAno.getSelectedItem().toString()));
 
-            String somaDesp = Double.toString(transacoes.somarDespesas(Integer.parseInt(comboxMes.getSelectedItem().toString()), Integer.parseInt(comboxAno.getSelectedItem().toString())));
-            lblDesp.setText(somaDesp);
+            String despesa = Double.toString(movimentacoes.somarDespesas(Integer.parseInt(comboxMes.getSelectedItem().toString()), Integer.parseInt(comboxAno.getSelectedItem().toString())));
+            ListarRenda.lblDesp.setText(despesa);
 
-            String somaRec = Double.toString(transacoes.somarReceitas(Integer.parseInt(comboxMes.getSelectedItem().toString()), Integer.parseInt(comboxAno.getSelectedItem().toString())));
-            lblRec.setText(somaRec);
+            String receita = Double.toString(movimentacoes.somarReceitas(Integer.parseInt(comboxMes.getSelectedItem().toString()), Integer.parseInt(comboxAno.getSelectedItem().toString())));
+            ListarRenda.lblRec.setText(receita);
 
-            String renda = Double.toString(transacoes.calculoRenda(Integer.parseInt(comboxMes.getSelectedItem().toString()), Integer.parseInt(comboxAno.getSelectedItem().toString())));
-            lblRend.setText(renda);
-
-            String saldo = Double.toString(c.getSaldo());
-            lblSald.setText(saldo);
-
-            double somaDespesa = transacoes.somarDespesas(Integer.parseInt(comboxMes.getSelectedItem().toString()), Integer.parseInt(comboxAno.getSelectedItem().toString()));
-            double somaReceita = transacoes.somarReceitas(Integer.parseInt(comboxMes.getSelectedItem().toString()), Integer.parseInt(comboxAno.getSelectedItem().toString()));
-            String saldoFinal = Double.toString((somaReceita - somaDespesa) + c.getSaldo());
-            lblSaldFinal.setText(saldoFinal);
+            String renda = Double.toString(movimentacoes.rendaMensal(Integer.parseInt(comboxMes.getSelectedItem().toString()), Integer.parseInt(comboxAno.getSelectedItem().toString())));
+            ListarRenda.lblRend.setText(renda);
 
             // Obter tipos do banco de dados
-            List<String> tipos = transacoes.Tipos(Integer.parseInt(comboxMes.getSelectedItem().toString()), Integer.parseInt(comboxAno.getSelectedItem().toString()));
+            List<String> tipos = movimentacoes.Tipos(Integer.parseInt(comboxMes.getSelectedItem().toString()), Integer.parseInt(comboxAno.getSelectedItem().toString()));
 
             // Definir o renderizador de celula
-            listaDespRec.setDefaultRenderer(Object.class, new CorTabela(tipos));
+            listagem.setDefaultRenderer(Object.class, new CorTabela(tipos));
 
         } else if (rbAno.isSelected()) {
-            transacoes.listarAnual(Integer.parseInt(comboxAno.getSelectedItem().toString()));
+            movimentacoes.movimentacoesAnuais(Integer.parseInt(comboxAno.getSelectedItem().toString()));
+            
+            String despesa = Double.toString(movimentacoes.somarDespesasAnuais(Integer.parseInt(comboxAno.getSelectedItem().toString())));
+            ListarRenda.lblDesp.setText(despesa);
 
-            String somaDesp = Double.toString(transacoes.somarDespesasAnual(Integer.parseInt(comboxAno.getSelectedItem().toString())));
-            lblDesp.setText(somaDesp);
+            String receita = Double.toString(movimentacoes.somarReceitasAnuais(Integer.parseInt(comboxAno.getSelectedItem().toString())));
+            ListarRenda.lblRec.setText(receita);
 
-            String somaRec = Double.toString(transacoes.somarReceitasAnuais(Integer.parseInt(comboxAno.getSelectedItem().toString())));
-            lblRec.setText(somaRec);
-
-            String renda = Double.toString(transacoes.calculoRendaAnual(Integer.parseInt(comboxAno.getSelectedItem().toString())));
-            lblRend.setText(renda);
-
-            double somaDespesa = transacoes.somarDespesasAnual(Integer.parseInt(comboxAno.getSelectedItem().toString()));
-            double somaReceita = transacoes.somarReceitasAnuais(Integer.parseInt(comboxAno.getSelectedItem().toString()));
-            String saldoFinal = Double.toString((somaReceita - somaDespesa) + c.getSaldo());
-            lblSaldFinal.setText(saldoFinal);
+            String renda = Double.toString(movimentacoes.rendaAnual(Integer.parseInt(comboxAno.getSelectedItem().toString())));
+            ListarRenda.lblRend.setText(renda);
             
             // Obter tipos do banco de dados
-            List<String> tipos = transacoes.Tipos(Integer.parseInt(comboxAno.getSelectedItem().toString()));
+            List<String> tipos = movimentacoes.Tipos(Integer.parseInt(comboxAno.getSelectedItem().toString()));
 
             // Definir o renderizador de celula
-            listaDespRec.setDefaultRenderer(Object.class, new CorTabela(tipos));
+            listagem.setDefaultRenderer(Object.class, new CorTabela(tipos));
         }
     }
 
@@ -94,7 +79,7 @@ public class ListarRenda extends javax.swing.JInternalFrame {
             }
         });
 
-        Usuarios user = new Usuarios();
+        Usuario user = new Usuario();
         lblUserEmail.setText(user.getEmail());
 
     }
@@ -110,7 +95,7 @@ public class ListarRenda extends javax.swing.JInternalFrame {
 
         rendAnoMes = new javax.swing.ButtonGroup();
         jScrollPane1 = new javax.swing.JScrollPane();
-        listaDespRec = new javax.swing.JTable();
+        listagem = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         lblUserEmail = new javax.swing.JLabel();
@@ -127,33 +112,29 @@ public class ListarRenda extends javax.swing.JInternalFrame {
         lblDesp = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         lblRec = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         lblRend = new javax.swing.JLabel();
-        lblSald = new javax.swing.JLabel();
-        jLabel14 = new javax.swing.JLabel();
-        lblSaldFinal = new javax.swing.JLabel();
 
         setClosable(true);
         setPreferredSize(new java.awt.Dimension(559, 464));
 
-        listaDespRec.setModel(new javax.swing.table.DefaultTableModel(
+        listagem.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "ID", "NOME", "DESCRIÇÃO", "QTD", "DATA", "ENDEREÇO", "VALOR"
+                "ID", "DESCRIÇÃO", "DATA", "VALOR"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false
+                false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(listaDespRec);
+        jScrollPane1.setViewportView(listagem);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Informações"));
 
@@ -161,7 +142,7 @@ public class ListarRenda extends javax.swing.JInternalFrame {
 
         lblUserEmail.setText("nome usuario");
 
-        jLabel3.setText("Caucular despesa/renda:");
+        jLabel3.setText("Calculo desejado:");
 
         btnCal.setText("Calcular");
         btnCal.addActionListener(new java.awt.event.ActionListener() {
@@ -224,7 +205,7 @@ public class ListarRenda extends javax.swing.JInternalFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(lblUserEmail))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -261,9 +242,6 @@ public class ListarRenda extends javax.swing.JInternalFrame {
         lblRec.setText("RECEITA");
         lblRec.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        jLabel10.setFont(new java.awt.Font("Fira Sans", 1, 13)); // NOI18N
-        jLabel10.setText("Saldo Atual:");
-
         jLabel11.setFont(new java.awt.Font("Fira Sans", 1, 13)); // NOI18N
         jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel11.setText("Renda");
@@ -274,82 +252,52 @@ public class ListarRenda extends javax.swing.JInternalFrame {
         lblRend.setText("RENDA");
         lblRend.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        lblSald.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblSald.setText("SALDO");
-        lblSald.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-
-        jLabel14.setFont(new java.awt.Font("Fira Sans", 1, 13)); // NOI18N
-        jLabel14.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel14.setText("Saldo Final");
-
-        lblSaldFinal.setFont(new java.awt.Font("Fira Sans", 0, 24)); // NOI18N
-        lblSaldFinal.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblSaldFinal.setText("SALDO");
-        lblSaldFinal.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(14, 14, 14)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(22, 22, 22)
+                        .addGap(106, 106, 106)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(lblRend, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(lblSaldFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(lblRend, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, 103, Short.MAX_VALUE)
-                            .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(29, 29, 29)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(lblDesp, javax.swing.GroupLayout.DEFAULT_SIZE, 175, Short.MAX_VALUE)
-                            .addComponent(lblRec, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(lblSald, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addContainerGap(33, Short.MAX_VALUE))
+                        .addGap(20, 20, 20)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(29, 29, 29)
+                                .addComponent(lblRec, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(jPanel2Layout.createSequentialGroup()
+                                    .addGap(132, 132, 132)
+                                    .addComponent(lblDesp, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                .addContainerGap(27, Short.MAX_VALUE))
         );
-
-        jPanel2Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {lblRend, lblSaldFinal});
-
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(19, 19, 19)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
                     .addComponent(lblDesp, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(12, 12, 12)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
                     .addComponent(lblRec, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel10)
-                    .addComponent(lblSald, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(22, 22, 22)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(23, 23, 23)
                         .addComponent(lblRend, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel14)
-                            .addComponent(jLabel11))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblSaldFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabel11))
+                .addGap(17, 17, 17))
         );
 
-        jPanel2Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {lblDesp, lblRec, lblSald});
-
-        jPanel2Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {lblRend, lblSaldFinal});
+        jPanel2Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {lblDesp, lblRec});
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -374,7 +322,7 @@ public class ListarRenda extends javax.swing.JInternalFrame {
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(20, Short.MAX_VALUE))
+                .addContainerGap(26, Short.MAX_VALUE))
         );
 
         setBounds(0, 0, 670, 540);
@@ -382,7 +330,7 @@ public class ListarRenda extends javax.swing.JInternalFrame {
 
     private void btnCalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCalActionPerformed
         try {
-            listarTransacoes();
+            listarMovimentacoes();
         } catch (SQLException ex) {
             System.out.println(ex);;
         }
@@ -394,9 +342,7 @@ public class ListarRenda extends javax.swing.JInternalFrame {
     private javax.swing.JComboBox<String> comboxAno;
     private javax.swing.JComboBox<String> comboxMes;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -408,10 +354,8 @@ public class ListarRenda extends javax.swing.JInternalFrame {
     public static javax.swing.JLabel lblDesp;
     public static javax.swing.JLabel lblRec;
     public static javax.swing.JLabel lblRend;
-    public static javax.swing.JLabel lblSald;
-    public static javax.swing.JLabel lblSaldFinal;
     private javax.swing.JLabel lblUserEmail;
-    public static javax.swing.JTable listaDespRec;
+    public static javax.swing.JTable listagem;
     private javax.swing.JRadioButton rbAno;
     private javax.swing.JRadioButton rbMes;
     private javax.swing.ButtonGroup rendAnoMes;

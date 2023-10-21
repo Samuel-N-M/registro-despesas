@@ -1,86 +1,20 @@
 package br.com.infogest.views;
 
-import br.com.infogest.dao.ConexaoDao;
-import br.com.infogest.model.Contas;
-import br.com.infogest.model.ContasDao;
-import br.com.infogest.model.Despesas;
-import br.com.infogest.model.DespesasEmpress;
-import br.com.infogest.model.Receitas;
-import br.com.infogest.model.Transacoes;
-import br.com.infogest.model.Usuarios;
-import java.sql.*;
-import java.awt.HeadlessException;
-import javax.swing.JOptionPane;
+import br.com.infogest.model.dao.LoginDao;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Login extends javax.swing.JFrame {
-    Connection conexao = null;
-    PreparedStatement pst = null;
-    ResultSet rs = null;
 
-    // Metodo verificar e logar
-    public void logar() {
-        String sql = "SELECT * FROM usuarios WHERE email = ? AND senha = md5(?)";
+    public void logar() throws SQLException {
+        LoginDao login = new LoginDao();
+        String senha = new String(txtSenha.getPassword());
 
-        try {
-            // Preparar consulta ao banco
-            conexao = ConexaoDao.conectar();
-            pst = conexao.prepareStatement(sql);
-            pst.setString(1, textUser.getText());
-            //metodo de captura de senha mais segura
-            String senha = new String(textSenha.getPassword());
-            pst.setString(2, senha);
-
-            // Executar a consulta (query);
-            rs = pst.executeQuery();
-
-            // Estrutura de verificação de existencia
-            if (rs.next()) {
-                String userName = rs.getString(2);
-                Usuarios.setNome(userName);
-                
-                String email = rs.getString(3);
-                Usuarios.setEmail(email);
-                
-                int idUser = rs.getInt(1);
-                Despesas.setUsuario_id(idUser);
-                Receitas.setUsuario_id(idUser);
-                DespesasEmpress.setUsuario_id(idUser);
-                Usuarios.setId(idUser);
-                Transacoes.setUsuarioID(idUser);
-                Contas.setUsuario_id(idUser);
-                
-                // Obter o conteudo da coluna tipo da tabela usuários do banco
-                String tipo = rs.getString(5);
-                Usuarios.setTipo(tipo);
-                Transacoes.setTipo(tipo);
-                
-                if (tipo.equals("Empresarial")) {
-                    // Função que irá exibir a tela principal
-                    Principal principal = new Principal();
-                    principal.setVisible(true);
-                    Principal.btnReceitas.setEnabled(true);
-                    Principal.btnDetRend.setEnabled(true);
-                    this.dispose();
-                } else {
-                    Principal principal = new Principal();
-                    principal.setVisible(true);
-                    Principal.btnDetalheCont.setEnabled(true);
-                    
-                    ContasDao cont = new ContasDao();
-                    cont.buscarSaldo();
-                    
-                    this.dispose();
-                }
-
-                // fechar conexao com banco
-                conexao.close();
-                pst.close();
-            } else {
-                JOptionPane.showMessageDialog(this, "Usuário e/ou senha inválido!");
-            }
-        } catch (HeadlessException | SQLException error) {
-            JOptionPane.showMessageDialog(this, error);
+        if (login.logar(txtemail.getText(), senha)) {
+            this.dispose();
         }
+
     }
 
     /**
@@ -88,8 +22,6 @@ public class Login extends javax.swing.JFrame {
      */
     public Login() {
         initComponents();
-        conexao = br.com.infogest.dao.ConexaoDao.conectar();
-        System.out.println(conexao);
     }
 
     /**
@@ -103,8 +35,8 @@ public class Login extends javax.swing.JFrame {
 
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        textUser = new javax.swing.JTextField();
-        textSenha = new javax.swing.JPasswordField();
+        txtemail = new javax.swing.JTextField();
+        txtSenha = new javax.swing.JPasswordField();
         btnLogin = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         lblCadastarButon = new javax.swing.JLabel();
@@ -112,7 +44,7 @@ public class Login extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
 
-        jLabel1.setText("Usuário");
+        jLabel1.setText("E-mail");
 
         jLabel2.setText("Senha");
 
@@ -144,7 +76,7 @@ public class Login extends javax.swing.JFrame {
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(lblCadastarButon)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 62, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 65, Short.MAX_VALUE)
                         .addComponent(btnLogin))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -152,8 +84,8 @@ public class Login extends javax.swing.JFrame {
                             .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(textSenha, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)
-                            .addComponent(textUser))))
+                            .addComponent(txtSenha, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)
+                            .addComponent(txtemail))))
                 .addGap(65, 65, 65))
         );
         layout.setVerticalGroup(
@@ -162,11 +94,11 @@ public class Login extends javax.swing.JFrame {
                 .addGap(52, 52, 52)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(textUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtemail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(textSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnLogin)
@@ -179,7 +111,11 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
-        logar();
+        try {
+            logar();
+        } catch (SQLException ex) {
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnLoginActionPerformed
 
     private void lblCadastarButonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCadastarButonMouseClicked
@@ -230,7 +166,7 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel lblCadastarButon;
-    private javax.swing.JPasswordField textSenha;
-    private javax.swing.JTextField textUser;
+    private javax.swing.JPasswordField txtSenha;
+    private javax.swing.JTextField txtemail;
     // End of variables declaration//GEN-END:variables
 }

@@ -4,8 +4,8 @@
  */
 package br.com.infogest.views;
 
-import br.com.infogest.model.RecDao;
-import br.com.infogest.model.Receitas;
+import br.com.infogest.model.dao.ReceitaDao;
+import br.com.infogest.model.dtm.Receitas;
 import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,16 +22,13 @@ public final class PainelReceitaEmpress extends javax.swing.JInternalFrame {
         DefaultTableModel model = (DefaultTableModel) listaReceita.getModel();
         model.setNumRows(0);
 
-        RecDao rd = new RecDao();
+        ReceitaDao rd = new ReceitaDao();
 
-        for (Receitas r : rd.listarRec()) {
+        for (Receitas r : rd.listarReceita()) {
             model.addRow(new Object[]{
                 r.getId(),
-                r.getNome(),
                 r.getDescricao(),
-                r.getQtd(),
                 r.getData(),
-                r.getEndereco(),
                 r.getValor()
             });
         }
@@ -253,16 +250,13 @@ public final class PainelReceitaEmpress extends javax.swing.JInternalFrame {
     private void btnAddRecActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddRecActionPerformed
         try {
             Receitas r = new Receitas();
-            RecDao rd = new RecDao();
+            ReceitaDao rd = new ReceitaDao();
 
             // Validar compos obrigatórios
             if ((textNome.getText().isEmpty()) || (textDesc.getText().isEmpty()) || (textQtd.getText().isEmpty()) || (textEnd.getText().isEmpty()) || (textVal.getText().isEmpty())) {
                 JOptionPane.showMessageDialog(null, "Preencha todos os campos obrigatórios *");
             } else {
-                r.setNome(textNome.getText());
                 r.setDescricao(textDesc.getText());
-                r.setQtd(Integer.parseInt(textQtd.getText()));
-                r.setEndereco(textEnd.getText());
                 r.setValor(Double.parseDouble(textVal.getText()));
 
                 rd.AdicionarRec(r);
@@ -287,11 +281,11 @@ public final class PainelReceitaEmpress extends javax.swing.JInternalFrame {
         try {
             if (listaReceita.getSelectedRow() != -1) {
                 Receitas r = new Receitas();
-                RecDao rd = new RecDao();
+                ReceitaDao rd = new ReceitaDao();
 
                 r.setId((int) listaReceita.getValueAt(listaReceita.getSelectedRow(), 0));
 
-                rd.ExcluirRecItem(r);
+                rd.ExcluirReceita(r);
 
                 listarReceita();
             } else {

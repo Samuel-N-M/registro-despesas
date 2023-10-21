@@ -4,7 +4,7 @@ import java.sql.*;
 
 public class ConexaoDao {
     // Info conexao BD
-    private static final String url = "jdbc:mysql://192.168.24.139:3306/infogest";
+    private static final String url = "jdbc:mysql://localhost/infogest";
     private static final String user = "root";
     private static final String senha = "123456789";
     // Driver conexao

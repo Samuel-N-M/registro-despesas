@@ -1,110 +1,18 @@
 package br.com.infogest.views;
 
-import br.com.infogest.model.Contas;
-import br.com.infogest.model.Despesas;
-import br.com.infogest.model.DespesasEmpress;
-import br.com.infogest.model.Receitas;
-import br.com.infogest.model.Transacoes;
-import br.com.infogest.model.Usuarios;
+import br.com.infogest.model.dao.CadastroDao;
 import java.sql.*;
-import javax.swing.JOptionPane;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Cadastro extends javax.swing.JFrame {
 
-    Connection conexao = null;
-    PreparedStatement pst = null;
-    ResultSet rs = null;
+    public void cadastrar() throws SQLException {
+        CadastroDao cadastro = new CadastroDao();
+        String senha = new String(txtSenha.getPassword());
 
-    public void cadastrar() {
-        String sqlVerif = "SELECT * FROM usuarios WHERE email = ?";
-
-        try {
-            // Realizar se já existe um usuário com os mesmo dados
-
-            pst = conexao.prepareStatement(sqlVerif);
-            pst.setString(1, textUser.getText());
-            rs = pst.executeQuery();
-
-            if (rs.next()) {
-                JOptionPane.showMessageDialog(this, "Usuário existente.", "Error", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-
-            // Realizar a incerção dos dados no banco de dados
-            String sqlInserir = "INSERT INTO usuarios(nome, email, senha, tipo) VALUES (?, ?, md5(?), ?)";
-
-            pst = conexao.prepareStatement(sqlInserir);
-            pst.setString(1, textName.getText());
-            pst.setString(2, textUser.getText());
-            String senha = new String(textSenha.getPassword());
-            pst.setString(3, senha);
-
-            String tipoCont = null;
-
-            if (rdPess.isSelected()) {
-                tipoCont = "Pessoal";
-            } else if (rdEmpres.isSelected()) {
-                tipoCont = "Empresarial";
-            }
-
-            pst.setString(4, tipoCont);
-
-            // Executar a inserção
-            int inserido = pst.executeUpdate();
-
-            if (inserido > 0) {
-                JOptionPane.showMessageDialog(this, "Cadastro bem-sucedido");
-                
-                String sqlBuc = "SELECT id, nome, email, tipo FROM usuarios WHERE email = ?";
-                pst = conexao.prepareStatement(sqlBuc);
-                pst.setString(1, textUser.getText());
-                rs = pst.executeQuery();
-
-                if (rs.next()) {
-                    String userName = rs.getString("nome");
-                    Usuarios.setNome(userName);
-                    
-                    String email = rs.getString("email");
-                    Usuarios.setEmail(email);
-                    
-                    int idUser = rs.getInt("id");
-                    Usuarios.setId(idUser);
-                    Despesas.setUsuario_id(idUser);
-                    Receitas.setUsuario_id(idUser);
-                    DespesasEmpress.setUsuario_id(idUser);
-                    Transacoes.setUsuarioID(idUser);
-                    Contas.setUsuario_id(idUser);
-
-                    String tipo = rs.getString("tipo");
-                    Usuarios.setTipo(tipo);
-                    Transacoes.setTipo(tipo);
-
-                    if (tipo.equals("Empresarial")) {
-                        Principal principal = new Principal();
-                        principal.setVisible(true);
-                        Principal.btnReceitas.setEnabled(true);
-                        Principal.btnDetRend.setEnabled(true);
-                        this.dispose();
-                    } else {
-                        Principal principal = new Principal();
-                        principal.setVisible(true);
-                        Principal.btnDetalheCont.setEnabled(true);
-                        this.dispose();
-                    }
-                } else {
-                    System.out.println("Não foi possivel obter o id do usuário");
-                }
-
-                // fechar conexao com banco
-                conexao.close();
-                pst.close();
-                rs.close();
-            } else {
-                JOptionPane.showMessageDialog(this, "Cadastro mal-sucedido");
-            }
-
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
+        if (cadastro.cadastarUsuario(txtNome.getText(), txtEmail.getText(), senha)) {
+            this.dispose();
         }
 
     }
@@ -114,8 +22,6 @@ public class Cadastro extends javax.swing.JFrame {
      */
     public Cadastro() {
         initComponents();
-        conexao = br.com.infogest.dao.ConexaoDao.conectar();
-        System.out.println(conexao);
     }
 
     /**
@@ -130,43 +36,22 @@ public class Cadastro extends javax.swing.JFrame {
         tipoConta = new javax.swing.ButtonGroup();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        textUser = new javax.swing.JTextField();
-        textSenha = new javax.swing.JPasswordField();
-        rdPess = new javax.swing.JRadioButton();
-        rdEmpres = new javax.swing.JRadioButton();
+        txtEmail = new javax.swing.JTextField();
+        txtSenha = new javax.swing.JPasswordField();
         btnCadastro = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
-        textName = new javax.swing.JTextField();
+        txtNome = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
 
-        jLabel1.setText("Usuário");
+        jLabel1.setText("E-mail");
 
         jLabel2.setText("Senha");
 
-        jLabel3.setText("Tipo de conta:");
-
-        textSenha.addActionListener(new java.awt.event.ActionListener() {
+        txtSenha.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                textSenhaActionPerformed(evt);
-            }
-        });
-
-        tipoConta.add(rdPess);
-        rdPess.setText("Pessoal");
-        rdPess.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rdPessActionPerformed(evt);
-            }
-        });
-
-        tipoConta.add(rdEmpres);
-        rdEmpres.setText("Empresarial");
-        rdEmpres.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rdEmpresActionPerformed(evt);
+                txtSenhaActionPerformed(evt);
             }
         });
 
@@ -189,24 +74,16 @@ public class Cadastro extends javax.swing.JFrame {
                 .addContainerGap(273, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addGap(18, 18, 18)
-                        .addComponent(rdPess)
-                        .addGap(18, 18, 18)
-                        .addComponent(rdEmpres))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(textSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 347, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(textUser, javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(textName, javax.swing.GroupLayout.PREFERRED_SIZE, 347, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                    .addComponent(txtSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 347, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(txtEmail, javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, 347, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(103, 103, 103))
         );
         layout.setVerticalGroup(
@@ -215,42 +92,33 @@ public class Cadastro extends javax.swing.JFrame {
                 .addGap(62, 62, 62)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(textName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(textUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(textSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(rdEmpres)
-                    .addComponent(rdPess))
-                .addGap(30, 30, 30)
+                    .addComponent(txtSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(36, 36, 36)
                 .addComponent(btnCadastro)
-                .addContainerGap(67, Short.MAX_VALUE))
+                .addContainerGap(54, Short.MAX_VALUE))
         );
 
-        setBounds(0, 0, 638, 356);
+        setBounds(0, 0, 638, 310);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void textSenhaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textSenhaActionPerformed
+    private void txtSenhaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSenhaActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_textSenhaActionPerformed
-
-    private void rdEmpresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdEmpresActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_rdEmpresActionPerformed
-
-    private void rdPessActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdPessActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_rdPessActionPerformed
+    }//GEN-LAST:event_txtSenhaActionPerformed
 
     private void btnCadastroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastroActionPerformed
-        cadastrar();
+        try {
+            cadastrar();
+        } catch (SQLException ex) {
+            Logger.getLogger(Cadastro.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnCadastroActionPerformed
 
     /**
@@ -293,13 +161,10 @@ public class Cadastro extends javax.swing.JFrame {
     private javax.swing.JButton btnCadastro;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JRadioButton rdEmpres;
-    private javax.swing.JRadioButton rdPess;
-    private javax.swing.JTextField textName;
-    private javax.swing.JPasswordField textSenha;
-    private javax.swing.JTextField textUser;
     private javax.swing.ButtonGroup tipoConta;
+    private javax.swing.JTextField txtEmail;
+    private javax.swing.JTextField txtNome;
+    private javax.swing.JPasswordField txtSenha;
     // End of variables declaration//GEN-END:variables
 }

@@ -1,12 +1,12 @@
 package br.com.infogest.model.dao;
 
-import br.com.infogest.dao.ConexaoDao;
+import br.com.infogest.dao.DAO;
 import br.com.infogest.views.Cadastro;
 import br.com.infogest.views.Principal;
 import java.sql.*;
 import javax.swing.JOptionPane;
 
-public class CadastroDao extends ConexaoDao {
+public class CadastroDao extends DAO {
 
     public boolean exist(String email) throws SQLException {
         Connection conexao = conectar();

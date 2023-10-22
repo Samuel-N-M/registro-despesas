@@ -2,14 +2,14 @@ package br.com.infogest.model.dtm;
 
 import java.sql.Date;
 
+public class Despesa {
 
-public class Transacoes {
     private int id;
     private String descricao;
     private Date data;
     private double valor;
     private String tipo;
-    static int usuario_id;
+    private static int usuario_id;
 
     public int getId() {
         return id;
@@ -51,44 +51,12 @@ public class Transacoes {
         this.tipo = tipo;
     }
 
-    
-    public int getUsuarioID() {
+    public int getUsuario_id() {
         return usuario_id;
     }
 
-    public static void setUsuarioID(int userID) {
-        Transacoes.usuario_id = userID;
-    }
-    
-    
-    static String listar;
-
-    public String getListar() {
-        return listar;
+    public static void setUsuario_id(int usuario_id) {
+        Despesa.usuario_id = usuario_id;
     }
 
-    public static void setListar(String listar) {
-        Transacoes.listar = listar;
-    }
-    
-    
-    // -----------------------------------------------------
-    
-    
-    
-    
-    private static double somaDespesa;
-
-    public double getSomaDespesa() {
-        return somaDespesa;
-    }
-
-    public static void setSomaDespesa(double somaDespesa) {
-        Transacoes.somaDespesa = somaDespesa;
-    }
-    
-    
-    
-    
-    
 }

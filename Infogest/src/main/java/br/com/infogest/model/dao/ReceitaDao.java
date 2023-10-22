@@ -1,7 +1,7 @@
 package br.com.infogest.model.dao;
 
-import br.com.infogest.dao.ConexaoDao;
-import br.com.infogest.model.dtm.Receitas;
+import br.com.infogest.dao.DAO;
+import br.com.infogest.model.dtm.Receita;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +16,7 @@ public class ReceitaDao {
     Date dataAtual = new Date(System.currentTimeMillis());
 
     public void bucarIdUsuario(String email) throws SQLException {
-        conexao = ConexaoDao.conectar();
+        conexao = DAO.conectar();
 
         String sql = "SELECT id FROM usuarios WHERE email = ?";
 
@@ -26,16 +26,16 @@ public class ReceitaDao {
         rs = pst.executeQuery();
 
         if (rs.next()) {
-            Receitas.setUsuario_id(rs.getInt("id"));
+            Receita.setUsuario_id(rs.getInt("id"));
         }
 
     }
 
-    public void AdicionarRec(Receitas r) throws SQLException {
+    public void AdicionarRec(Receita r) throws SQLException {
         try {
             String sql = "INSERT INTO movimentacoes(descricao, data, valor, tipo, usuario_id) VALUES (?, ?, ?, 'Receita', ?)";
 
-            conexao = ConexaoDao.conectar();
+            conexao = DAO.conectar();
             pst = conexao.prepareStatement(sql);
             pst.setString(1, r.getDescricao());
             pst.setDate(2, dataAtual);
@@ -55,12 +55,12 @@ public class ReceitaDao {
     }
 
     // Adicionar item na lista de despesas
-    public List<Receitas> listarReceita() throws SQLException {
-        conexao = ConexaoDao.conectar();
+    public List<Receita> listarReceita() throws SQLException {
+        conexao = DAO.conectar();
 
-        Receitas d = new Receitas();
+        Receita d = new Receita();
 
-        List<Receitas> receitas = new ArrayList<>();
+        List<Receita> receitas = new ArrayList<>();
 
         try {
             String sql = "Select id, descricao, data, valor from movimentacoes WHERE usuario_id = ? AND tipo = 'Receita'";
@@ -70,7 +70,7 @@ public class ReceitaDao {
             rs = pst.executeQuery();
 
             while (rs.next()) {
-                Receitas rec = new Receitas();
+                Receita rec = new Receita();
                 // Buscando dados do BD
                 rec.setId(rs.getInt("id"));
                 rec.setDescricao(rs.getString("descricao"));
@@ -97,12 +97,12 @@ public class ReceitaDao {
     }
 
     // Deletar itens da lista de receita
-    public void ExcluirReceita(Receitas r) throws SQLException {
+    public void ExcluirReceita(Receita r) throws SQLException {
 
         try {
             String sql = "DELETE FROM movimentacoes WHERE id = ?";
 
-            conexao = ConexaoDao.conectar();
+            conexao = DAO.conectar();
             pst = conexao.prepareStatement(sql);
             pst.setInt(1, r.getId());
 

@@ -1,14 +1,14 @@
 package br.com.infogest.model.dao;
 
-import br.com.infogest.dao.ConexaoDao;
+import br.com.infogest.dao.DAO;
 import br.com.infogest.model.dtm.Movimentacao;
-import static br.com.infogest.views.ClacularContas.listagem;
+import static br.com.infogest.views.DetalharContas.listagem;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
-public class MovimentacaoDao extends ConexaoDao {
+public class MovimentacaoDao extends DAO {
 
     public void bucarIdUsuario(String email) throws SQLException {
         Connection conexao = conectar();

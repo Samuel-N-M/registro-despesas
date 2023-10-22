@@ -62,18 +62,7 @@ public class Movimentacao {
     public static void setUsuario_id(int usuario_id) {
         Movimentacao.usuario_id = usuario_id;
     }
-    
-    
-    private static String listar;
-
-    public String getListar() {
-        return listar;
-    }
-
-    public static void setListar(String listar) {
-        Transacoes.listar = listar;
-    }
-    
+   
     
     // -----------------------------------------------------
     

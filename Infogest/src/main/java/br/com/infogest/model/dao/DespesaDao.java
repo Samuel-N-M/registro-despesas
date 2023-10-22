@@ -1,7 +1,7 @@
 package br.com.infogest.model.dao;
 
-import br.com.infogest.model.dtm.Despesas;
-import br.com.infogest.dao.ConexaoDao;
+import br.com.infogest.model.dtm.Despesa;
+import br.com.infogest.dao.DAO;
 import java.sql.*;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
@@ -16,7 +16,7 @@ public class DespesaDao {
     Date dataAtual = new Date(System.currentTimeMillis());
 
     public void bucarIdUsuario(String email) throws SQLException {
-        conexao = ConexaoDao.conectar();
+        conexao = DAO.conectar();
 
         String sql = "SELECT id FROM usuarios WHERE email = ?";
 
@@ -26,17 +26,17 @@ public class DespesaDao {
         rs = pst.executeQuery();
 
         if (rs.next()) {
-            Despesas.setUsuario_id(rs.getInt("id"));
+            Despesa.setUsuario_id(rs.getInt("id"));
         }
 
     }
 
-    public void Adicionar(Despesas d) throws SQLException {
+    public void Adicionar(Despesa d) throws SQLException {
 
         try {
             String sql = "INSERT INTO movimentacoes(descricao, data, valor, tipo, usuario_id) VALUES (?, ?, ?, 'Despesa', ?)";
 
-            conexao = ConexaoDao.conectar();
+            conexao = DAO.conectar();
             pst = conexao.prepareStatement(sql);
             pst.setString(1, d.getDescricao());
             pst.setDate(2, dataAtual);
@@ -60,12 +60,12 @@ public class DespesaDao {
     }
 
     // Adicionar item na lista de despesas
-    public List<Despesas> listarDesp() throws SQLException {
-        conexao = ConexaoDao.conectar();
+    public List<Despesa> listarDesp() throws SQLException {
+        conexao = DAO.conectar();
 
-        Despesas d = new Despesas();
+        Despesa d = new Despesa();
 
-        List<Despesas> despesas = new ArrayList<>();
+        List<Despesa> despesas = new ArrayList<>();
 
         try {
             String sql = "Select id, descricao, data, valor from movimentacoes WHERE usuario_id = ? AND tipo = 'Despesa'";
@@ -75,7 +75,7 @@ public class DespesaDao {
             rs = pst.executeQuery();
 
             while (rs.next()) {
-                Despesas desp = new Despesas();
+                Despesa desp = new Despesa();
                 // Buscando dados do BD
                 desp.setId(rs.getInt("id"));
                 desp.setDescricao(rs.getString("descricao"));
@@ -102,12 +102,12 @@ public class DespesaDao {
     }
 
     // Deletar itens da lista de despesa
-    public void ExcluirDespesa(Despesas d) throws SQLException {
+    public void ExcluirDespesa(Despesa d) throws SQLException {
 
         try {
             String sql = "DELETE FROM movimentacoes WHERE id = ?";
 
-            conexao = ConexaoDao.conectar();
+            conexao = DAO.conectar();
             pst = conexao.prepareStatement(sql);
             pst.setInt(1, d.getId());
 

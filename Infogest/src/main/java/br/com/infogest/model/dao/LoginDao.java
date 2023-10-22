@@ -1,12 +1,12 @@
 package br.com.infogest.model.dao;
 
-import br.com.infogest.dao.ConexaoDao;
+import br.com.infogest.dao.DAO;
 import br.com.infogest.model.dtm.Movimentacao;
 import br.com.infogest.views.Principal;
 import java.sql.*;
 import javax.swing.JOptionPane;
 
-public class LoginDao extends ConexaoDao {
+public class LoginDao extends DAO {
 
     public boolean logar(String email, String senha) throws SQLException {
         boolean logado = false;

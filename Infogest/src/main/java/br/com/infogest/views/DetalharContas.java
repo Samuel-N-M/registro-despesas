@@ -17,7 +17,7 @@ import java.util.List;
  *
  * @author samuel
  */
-public class ClacularContas extends javax.swing.JInternalFrame {
+public class DetalharContas extends javax.swing.JInternalFrame {
 
     public void listarMovimentacoes() throws SQLException {
         MovimentacaoDao movimentacoes = new MovimentacaoDao();
@@ -27,13 +27,13 @@ public class ClacularContas extends javax.swing.JInternalFrame {
             movimentacoes.movimentacoesMensais(Integer.parseInt(comboxMes.getSelectedItem().toString()), Integer.parseInt(comboxAno.getSelectedItem().toString()));
 
             String despesa = Double.toString(movimentacoes.somarDespesas(Integer.parseInt(comboxMes.getSelectedItem().toString()), Integer.parseInt(comboxAno.getSelectedItem().toString())));
-            ClacularContas.lblDesp.setText(despesa);
+            DetalharContas.lblDesp.setText(despesa);
 
             String receita = Double.toString(movimentacoes.somarReceitas(Integer.parseInt(comboxMes.getSelectedItem().toString()), Integer.parseInt(comboxAno.getSelectedItem().toString())));
-            ClacularContas.lblRec.setText(receita);
+            DetalharContas.lblRec.setText(receita);
 
             String renda = Double.toString(movimentacoes.rendaMensal(Integer.parseInt(comboxMes.getSelectedItem().toString()), Integer.parseInt(comboxAno.getSelectedItem().toString())));
-            ClacularContas.lblTotal.setText(renda);
+            DetalharContas.lblTotal.setText(renda);
 
             // Obter tipos do banco de dados
             List<String> tipos = movimentacoes.Tipos(Integer.parseInt(comboxMes.getSelectedItem().toString()), Integer.parseInt(comboxAno.getSelectedItem().toString()));
@@ -45,13 +45,13 @@ public class ClacularContas extends javax.swing.JInternalFrame {
             movimentacoes.movimentacoesAnuais(Integer.parseInt(comboxAno.getSelectedItem().toString()));
             
             String despesa = Double.toString(movimentacoes.somarDespesasAnuais(Integer.parseInt(comboxAno.getSelectedItem().toString())));
-            ClacularContas.lblDesp.setText(despesa);
+            DetalharContas.lblDesp.setText(despesa);
 
             String receita = Double.toString(movimentacoes.somarReceitasAnuais(Integer.parseInt(comboxAno.getSelectedItem().toString())));
-            ClacularContas.lblRec.setText(receita);
+            DetalharContas.lblRec.setText(receita);
 
             String renda = Double.toString(movimentacoes.rendaAnual(Integer.parseInt(comboxAno.getSelectedItem().toString())));
-            ClacularContas.lblTotal.setText(renda);
+            DetalharContas.lblTotal.setText(renda);
             
             // Obter tipos do banco de dados
             List<String> tipos = movimentacoes.Tipos(Integer.parseInt(comboxAno.getSelectedItem().toString()));
@@ -64,7 +64,7 @@ public class ClacularContas extends javax.swing.JInternalFrame {
     /**
      * Creates new form Total
      */
-    public ClacularContas() {
+    public DetalharContas() {
         initComponents();
 
         rbAno.addItemListener(new ItemListener() {

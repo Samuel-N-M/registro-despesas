@@ -5,7 +5,7 @@
 package br.com.infogest.views;
 
 import br.com.infogest.model.dao.ReceitaDao;
-import br.com.infogest.model.dtm.Receitas;
+import br.com.infogest.model.dtm.Receita;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -24,7 +24,7 @@ public final class PainelReceita extends javax.swing.JInternalFrame {
 
         ReceitaDao receita = new ReceitaDao();
 
-        for (Receitas r : receita.listarReceita()) {
+        for (Receita r : receita.listarReceita()) {
             model.addRow(new Object[]{
                 r.getId(),
                 r.getDescricao(),
@@ -189,7 +189,7 @@ public final class PainelReceita extends javax.swing.JInternalFrame {
 
     private void btnAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarActionPerformed
         try {
-            Receitas r = new Receitas();
+            Receita r = new Receita();
             ReceitaDao receita = new ReceitaDao();
 
             // Validar compos obrigatórios
@@ -219,7 +219,7 @@ public final class PainelReceita extends javax.swing.JInternalFrame {
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
         try {
             if (listaReceita.getSelectedRow() != -1) {
-                Receitas r = new Receitas();
+                Receita r = new Receita();
                 ReceitaDao receita = new ReceitaDao();
 
                 r.setId((int) listaReceita.getValueAt(listaReceita.getSelectedRow(), 0));

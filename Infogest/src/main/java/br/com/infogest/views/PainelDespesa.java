@@ -5,7 +5,7 @@
 package br.com.infogest.views;
 
 import br.com.infogest.model.dao.DespesaDao;
-import br.com.infogest.model.dtm.Despesas;
+import br.com.infogest.model.dtm.Despesa;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -24,7 +24,7 @@ public final class PainelDespesa extends javax.swing.JInternalFrame {
 
         DespesaDao despesaDao = new DespesaDao();
 
-        for (Despesas d : despesaDao.listarDesp()) {
+        for (Despesa d : despesaDao.listarDesp()) {
             model.addRow(new Object[]{
                 d.getId(),
                 d.getDescricao(),
@@ -194,7 +194,7 @@ public final class PainelDespesa extends javax.swing.JInternalFrame {
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         try {
-            Despesas d = new Despesas();
+            Despesa d = new Despesa();
             DespesaDao desp = new DespesaDao();
 
             // Validar compos obrigatórios
@@ -224,7 +224,7 @@ public final class PainelDespesa extends javax.swing.JInternalFrame {
     private void btnExActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExActionPerformed
         try {
             if (listaDespesa.getSelectedRow() != -1) {
-                Despesas d = new Despesas();
+                Despesa d = new Despesa();
                 DespesaDao desp = new DespesaDao();
 
                 d.setId((int) listaDespesa.getValueAt(listaDespesa.getSelectedRow(), 0));

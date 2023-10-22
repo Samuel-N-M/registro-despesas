@@ -2,7 +2,7 @@ package br.com.infogest.dao;
 
 import java.sql.*;
 
-public class ConexaoDao {
+public class DAO {
     // Info conexao BD
     private static final String url = "jdbc:mysql://localhost/infogest";
     private static final String user = "root";

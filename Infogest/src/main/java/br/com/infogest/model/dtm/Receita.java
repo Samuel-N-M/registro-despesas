@@ -2,7 +2,7 @@ package br.com.infogest.model.dtm;
 
 import java.sql.Date;
 
-public class Receitas {
+public class Receita {
 
     private int id;
     private String descricao;
@@ -56,7 +56,7 @@ public class Receitas {
     }
 
     public static void setUsuario_id(int usuario_id) {
-        Receitas.usuario_id = usuario_id;
+        Receita.usuario_id = usuario_id;
     }
     
     

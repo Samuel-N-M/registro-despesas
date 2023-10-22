@@ -46,9 +46,11 @@ public class Principal extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         men = new javax.swing.JMenu();
         menSob = new javax.swing.JMenuItem();
+        menInicio = new javax.swing.JMenuItem();
         menSair = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Principal");
         setResizable(false);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -147,6 +149,15 @@ public class Principal extends javax.swing.JFrame {
         });
         men.add(menSob);
 
+        menInicio.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_I, java.awt.event.InputEvent.ALT_DOWN_MASK));
+        menInicio.setText("Inicio");
+        menInicio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menInicioActionPerformed(evt);
+            }
+        });
+        men.add(menInicio);
+
         menSair.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.ALT_DOWN_MASK));
         menSair.setText("Sair");
         menSair.addActionListener(new java.awt.event.ActionListener() {
@@ -184,9 +195,9 @@ public class Principal extends javax.swing.JFrame {
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(69, 69, 69)
                         .addComponent(btnDespesas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(38, 38, 38)
+                        .addGap(43, 43, 43)
                         .addComponent(btnReceitas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(49, 49, 49)
+                        .addGap(44, 44, 44)
                         .addComponent(btnDetalheContas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(94, 94, 94))
                     .addGroup(layout.createSequentialGroup()
@@ -211,7 +222,7 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnDespesasActionPerformed
 
     private void btnDetalheContasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDetalheContasActionPerformed
-        ClacularContas renda = new ClacularContas();
+        DetalharContas renda = new DetalharContas();
         renda.setVisible(true);
         painel.add(renda);
     }//GEN-LAST:event_btnDetalheContasActionPerformed
@@ -237,6 +248,16 @@ public class Principal extends javax.swing.JFrame {
             System.exit(0);
         }
     }//GEN-LAST:event_menSairActionPerformed
+
+    private void menInicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menInicioActionPerformed
+        int voltarInicio = JOptionPane.showConfirmDialog(null, "Esta operação irá fechar a sessão atual. Tem certeza que deseja continuar?", "Atenção", JOptionPane.YES_NO_OPTION);
+
+        if (voltarInicio == JOptionPane.YES_OPTION) {
+            Inicio inicio = new Inicio();
+            inicio.setVisible(true);
+            this.dispose();
+        }
+    }//GEN-LAST:event_menInicioActionPerformed
 
     /**
      * @param args the command line arguments
@@ -285,6 +306,7 @@ public class Principal extends javax.swing.JFrame {
     public static javax.swing.JLabel lblEmail;
     public static javax.swing.JLabel lblUser;
     private javax.swing.JMenu men;
+    private javax.swing.JMenuItem menInicio;
     private javax.swing.JMenuItem menSair;
     private javax.swing.JMenuItem menSob;
     private javax.swing.JDesktopPane painel;

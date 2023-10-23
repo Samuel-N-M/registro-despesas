@@ -43,7 +43,7 @@ public class DetalharContas extends javax.swing.JInternalFrame {
 
         } else if (rbAno.isSelected()) {
             movimentacoes.movimentacoesAnuais(Integer.parseInt(comboxAno.getSelectedItem().toString()));
-            
+
             String despesa = Double.toString(movimentacoes.somarDespesasAnuais(Integer.parseInt(comboxAno.getSelectedItem().toString())));
             DetalharContas.lblDesp.setText(despesa);
 
@@ -52,12 +52,13 @@ public class DetalharContas extends javax.swing.JInternalFrame {
 
             String renda = Double.toString(movimentacoes.rendaAnual(Integer.parseInt(comboxAno.getSelectedItem().toString())));
             DetalharContas.lblTotal.setText(renda);
-            
+
             // Obter tipos do banco de dados
             List<String> tipos = movimentacoes.Tipos(Integer.parseInt(comboxAno.getSelectedItem().toString()));
 
             // Definir o renderizador de celula
             listagem.setDefaultRenderer(Object.class, new CorTabela(tipos));
+
         }
     }
 
@@ -81,7 +82,6 @@ public class DetalharContas extends javax.swing.JInternalFrame {
 
         Usuario user = new Usuario();
         lblUserEmail.setText(user.getEmail());
-
     }
 
     /**
@@ -134,7 +134,19 @@ public class DetalharContas extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
+        listagem.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_NEXT_COLUMN);
+        listagem.setPreferredSize(new java.awt.Dimension(400, 0));
         jScrollPane1.setViewportView(listagem);
+        if (listagem.getColumnModel().getColumnCount() > 0) {
+            listagem.getColumnModel().getColumn(0).setResizable(false);
+            listagem.getColumnModel().getColumn(0).setPreferredWidth(50);
+            listagem.getColumnModel().getColumn(1).setResizable(false);
+            listagem.getColumnModel().getColumn(1).setPreferredWidth(350);
+            listagem.getColumnModel().getColumn(2).setResizable(false);
+            listagem.getColumnModel().getColumn(2).setPreferredWidth(100);
+            listagem.getColumnModel().getColumn(3).setResizable(false);
+            listagem.getColumnModel().getColumn(3).setPreferredWidth(100);
+        }
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Informações"));
 
@@ -320,8 +332,8 @@ public class DetalharContas extends javax.swing.JInternalFrame {
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(26, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(13, Short.MAX_VALUE))
         );
 
         setBounds(0, 0, 670, 540);

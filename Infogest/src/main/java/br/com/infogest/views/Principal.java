@@ -116,7 +116,7 @@ public class Principal extends javax.swing.JFrame {
             }
         });
 
-        btnDetalheContas.setText("Detalhar renda");
+        btnDetalheContas.setText("Detalhar contas");
         btnDetalheContas.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         btnDetalheContas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

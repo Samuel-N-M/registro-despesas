@@ -78,11 +78,8 @@ public class MovimentacaoDao extends DAO {
             model.addRow(new Object[]{id, descricao, data, valor});
         }
     }
-    
-    
+
     // CALCULO MENSAIS
-    
-    
     // Somar depsesas mensais
     public double somarDespesas(int mes, int ano) throws SQLException {
         double somaDespesa = 0.00;

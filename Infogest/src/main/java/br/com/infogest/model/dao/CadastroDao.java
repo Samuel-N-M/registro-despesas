@@ -1,7 +1,6 @@
 package br.com.infogest.model.dao;
 
 import br.com.infogest.dao.DAO;
-import br.com.infogest.views.Cadastro;
 import br.com.infogest.views.Principal;
 import java.sql.*;
 import javax.swing.JOptionPane;

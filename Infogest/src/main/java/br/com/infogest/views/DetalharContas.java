@@ -94,8 +94,6 @@ public class DetalharContas extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         rendAnoMes = new javax.swing.ButtonGroup();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        listagem = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         lblUserEmail = new javax.swing.JLabel();
@@ -114,39 +112,11 @@ public class DetalharContas extends javax.swing.JInternalFrame {
         lblRec = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         lblTotal = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        listagem = new javax.swing.JTable();
 
         setClosable(true);
         setPreferredSize(new java.awt.Dimension(559, 464));
-
-        listagem.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "ID", "DESCRIÇÃO", "DATA", "VALOR"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        listagem.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_NEXT_COLUMN);
-        listagem.setPreferredSize(new java.awt.Dimension(400, 0));
-        jScrollPane1.setViewportView(listagem);
-        if (listagem.getColumnModel().getColumnCount() > 0) {
-            listagem.getColumnModel().getColumn(0).setResizable(false);
-            listagem.getColumnModel().getColumn(0).setPreferredWidth(50);
-            listagem.getColumnModel().getColumn(1).setResizable(false);
-            listagem.getColumnModel().getColumn(1).setPreferredWidth(350);
-            listagem.getColumnModel().getColumn(2).setResizable(false);
-            listagem.getColumnModel().getColumn(2).setPreferredWidth(100);
-            listagem.getColumnModel().getColumn(3).setResizable(false);
-            listagem.getColumnModel().getColumn(3).setPreferredWidth(100);
-        }
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Informações"));
 
@@ -310,19 +280,46 @@ public class DetalharContas extends javax.swing.JInternalFrame {
 
         jPanel2Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {lblDesp, lblRec});
 
+        listagem.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "ID", "DESCRIÇÃO", "DATA", "VALOR"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, true, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(listagem);
+        if (listagem.getColumnModel().getColumnCount() > 0) {
+            listagem.getColumnModel().getColumn(0).setResizable(false);
+            listagem.getColumnModel().getColumn(0).setPreferredWidth(5);
+            listagem.getColumnModel().getColumn(1).setResizable(false);
+            listagem.getColumnModel().getColumn(1).setPreferredWidth(300);
+            listagem.getColumnModel().getColumn(2).setResizable(false);
+            listagem.getColumnModel().getColumn(3).setResizable(false);
+        }
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(19, 19, 19)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(15, 15, 15))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -332,8 +329,8 @@ public class DetalharContas extends javax.swing.JInternalFrame {
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(13, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         setBounds(0, 0, 670, 540);

@@ -218,6 +218,7 @@ public class Principal extends javax.swing.JFrame {
     private void btnDespesasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDespesasActionPerformed
 
         try {
+            this.painel.removeAll();
             PainelDespesa despesa = new PainelDespesa();
             despesa.setVisible(true);
             painel.add(despesa);
@@ -229,6 +230,7 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnDespesasActionPerformed
 
     private void btnDetalheContasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDetalheContasActionPerformed
+        this.painel.removeAll();
         DetalharContas renda = new DetalharContas();
         renda.setVisible(true);
         painel.add(renda);
@@ -240,6 +242,7 @@ public class Principal extends javax.swing.JFrame {
 
     private void btnReceitasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReceitasActionPerformed
         try {
+            this.painel.removeAll();
             PainelReceita receita = new PainelReceita();
             receita.setVisible(true);
             painel.add(receita);

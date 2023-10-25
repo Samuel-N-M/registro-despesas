@@ -45,7 +45,6 @@ public class Principal extends javax.swing.JFrame {
         painel = new javax.swing.JDesktopPane();
         jMenuBar1 = new javax.swing.JMenuBar();
         men = new javax.swing.JMenu();
-        menSob = new javax.swing.JMenuItem();
         menInicio = new javax.swing.JMenuItem();
         menSair = new javax.swing.JMenuItem();
 
@@ -146,15 +145,6 @@ public class Principal extends javax.swing.JFrame {
         men.setText("Menu");
         men.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
-        menSob.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.ALT_DOWN_MASK));
-        menSob.setText("Sobre");
-        menSob.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                menSobActionPerformed(evt);
-            }
-        });
-        men.add(menSob);
-
         menInicio.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_I, java.awt.event.InputEvent.ALT_DOWN_MASK));
         menInicio.setText("Inicio");
         menInicio.addActionListener(new java.awt.event.ActionListener() {
@@ -236,10 +226,6 @@ public class Principal extends javax.swing.JFrame {
         painel.add(renda);
     }//GEN-LAST:event_btnDetalheContasActionPerformed
 
-    private void menSobActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menSobActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_menSobActionPerformed
-
     private void btnReceitasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReceitasActionPerformed
         try {
             this.painel.removeAll();
@@ -318,7 +304,6 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenu men;
     private javax.swing.JMenuItem menInicio;
     private javax.swing.JMenuItem menSair;
-    private javax.swing.JMenuItem menSob;
     private javax.swing.JDesktopPane painel;
     // End of variables declaration//GEN-END:variables
 }

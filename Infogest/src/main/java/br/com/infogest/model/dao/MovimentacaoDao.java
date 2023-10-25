@@ -131,25 +131,29 @@ public class MovimentacaoDao extends DAO {
     public double rendaMensal(int mes, int ano) throws SQLException {
         double renda = 0.00;
 
-        Connection conexao = conectar();
-
-        Movimentacao m = new Movimentacao();
-
-        String sql = "SELECT (SELECT SUM(valor) AS somaReceitas FROM movimentacoes WHERE MONTH(data) = ? AND YEAR(data) = ? AND usuario_id = ? AND tipo = 'Receita') - (SELECT SUM(valor) AS somaDespesas FROM movimentacoes WHERE MONTH(data) = ? AND YEAR(data) = ? AND usuario_id = ? AND tipo = 'Despesa') AS renda";
-
-        PreparedStatement pst = conexao.prepareStatement(sql);
-        pst.setInt(1, mes);
-        pst.setInt(2, ano);
-        pst.setInt(3, m.getUsuario_id());
-        pst.setInt(4, mes);
-        pst.setInt(5, ano);
-        pst.setInt(6, m.getUsuario_id());
-
-        ResultSet rs = pst.executeQuery();
-
-        if (rs.next()) {
-            renda = rs.getDouble("renda");
-        }
+//        Connection conexao = conectar();
+//
+//        Movimentacao m = new Movimentacao();
+//
+//        String sql = "SELECT (SELECT SUM(valor) AS somaReceitas FROM movimentacoes WHERE MONTH(data) = ? AND YEAR(data) = ? AND usuario_id = ? AND tipo = 'Receita') - (SELECT SUM(valor) AS somaDespesas FROM movimentacoes WHERE MONTH(data) = ? AND YEAR(data) = ? AND usuario_id = ? AND tipo = 'Despesa') AS renda";
+//
+//        PreparedStatement pst = conexao.prepareStatement(sql);
+//        pst.setInt(1, mes);
+//        pst.setInt(2, ano);
+//        pst.setInt(3, m.getUsuario_id());
+//        pst.setInt(4, mes);
+//        pst.setInt(5, ano);
+//        pst.setInt(6, m.getUsuario_id());
+//
+//        ResultSet rs = pst.executeQuery();
+//
+//        if (rs.next()) {
+//            renda = rs.getDouble("renda");
+//        }
+        double somaDespesaMensal = somarDespesas(mes, ano);
+        double somaReceitaMensal = somarReceitas(mes, ano);
+        
+        renda = somaReceitaMensal - somaDespesaMensal;
 
         return renda;
     }

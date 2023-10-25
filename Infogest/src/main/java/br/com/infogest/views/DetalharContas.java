@@ -206,7 +206,7 @@ public class DetalharContas extends javax.swing.JInternalFrame {
                 .addGap(14, 14, 14))
         );
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Renda"));
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Faturamento"));
 
         jLabel6.setFont(new java.awt.Font("Fira Sans", 1, 13)); // NOI18N
         jLabel6.setText("Despesa Total:");

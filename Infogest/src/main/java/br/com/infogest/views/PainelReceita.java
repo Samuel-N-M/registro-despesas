@@ -58,7 +58,7 @@ public final class PainelReceita extends javax.swing.JInternalFrame {
         txtDescricao = new javax.swing.JTextField();
         btnAdicionar = new javax.swing.JButton();
         btnExcluir = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
+        jScrollPane2 = new javax.swing.JScrollPane();
         listaReceita = new javax.swing.JTable();
 
         setClosable(true);
@@ -112,7 +112,7 @@ public final class PainelReceita extends javax.swing.JInternalFrame {
                         .addComponent(btnAdicionar)
                         .addGap(18, 18, 18)
                         .addComponent(btnExcluir, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(72, Short.MAX_VALUE))
         );
 
         jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnAdicionar, btnExcluir});
@@ -120,7 +120,7 @@ public final class PainelReceita extends javax.swing.JInternalFrame {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(54, Short.MAX_VALUE)
+                .addContainerGap(53, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel3)
@@ -137,7 +137,10 @@ public final class PainelReceita extends javax.swing.JInternalFrame {
 
         listaReceita.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
                 "ID", "DESCRIÇÃO", "DATA", "VALOR"
@@ -151,33 +154,33 @@ public final class PainelReceita extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
-        listaReceita.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_NEXT_COLUMN);
-        listaReceita.setPreferredSize(new java.awt.Dimension(549, 281));
-        listaReceita.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                listaReceitaMouseReleased(evt);
-            }
-        });
-        listaReceita.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                listaReceitaKeyReleased(evt);
-            }
-        });
-        jScrollPane1.setViewportView(listaReceita);
+        jScrollPane2.setViewportView(listaReceita);
+        if (listaReceita.getColumnModel().getColumnCount() > 0) {
+            listaReceita.getColumnModel().getColumn(0).setResizable(false);
+            listaReceita.getColumnModel().getColumn(0).setPreferredWidth(5);
+            listaReceita.getColumnModel().getColumn(1).setResizable(false);
+            listaReceita.getColumnModel().getColumn(1).setPreferredWidth(300);
+            listaReceita.getColumnModel().getColumn(2).setResizable(false);
+            listaReceita.getColumnModel().getColumn(3).setResizable(false);
+        }
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 658, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 327, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 322, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         setBounds(0, 0, 670, 540);
@@ -212,10 +215,6 @@ public final class PainelReceita extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_btnAdicionarActionPerformed
 
-    private void listaReceitaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_listaReceitaKeyReleased
-
-    }//GEN-LAST:event_listaReceitaKeyReleased
-
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
         try {
             if (listaReceita.getSelectedRow() != -1) {
@@ -235,14 +234,6 @@ public final class PainelReceita extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_btnExcluirActionPerformed
 
-    private void listaReceitaMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listaReceitaMouseReleased
-        if (listaReceita.getSelectedRow() != -1) {
-//            textDesc.setText(listaDespesa.getValueAt(listaDespesa.getSelectedRow(), 1).toString());
-//            textQtd.setText(listaDespesa.getValueAt(listaDespesa.getSelectedRow(), 2).toString());
-//            textVal.setText(listaDespesa.getValueAt(listaDespesa.getSelectedRow(), 3).toString());
-        }
-    }//GEN-LAST:event_listaReceitaMouseReleased
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdicionar;
@@ -250,7 +241,7 @@ public final class PainelReceita extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     public static javax.swing.JTable listaReceita;
     private javax.swing.JTextField txtDescricao;
     private javax.swing.JTextField txtValor;

@@ -377,7 +377,7 @@
               <Table columnCount="4" rowCount="0">
                 <Column editable="false" title="ID" type="java.lang.Object"/>
                 <Column editable="false" title="DESCRI&#xc7;&#xc3;O" type="java.lang.Object"/>
-                <Column editable="true" title="DATA" type="java.lang.Object"/>
+                <Column editable="false" title="DATA" type="java.lang.Object"/>
                 <Column editable="false" title="VALOR" type="java.lang.Object"/>
               </Table>
             </Property>

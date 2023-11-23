@@ -45,7 +45,7 @@ public class Principal extends javax.swing.JFrame {
         painel = new javax.swing.JDesktopPane();
         jMenuBar1 = new javax.swing.JMenuBar();
         men = new javax.swing.JMenu();
-        menInicio = new javax.swing.JMenuItem();
+        menDesconect = new javax.swing.JMenuItem();
         menSair = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -145,14 +145,14 @@ public class Principal extends javax.swing.JFrame {
         men.setText("Menu");
         men.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
-        menInicio.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_I, java.awt.event.InputEvent.ALT_DOWN_MASK));
-        menInicio.setText("Inicio");
-        menInicio.addActionListener(new java.awt.event.ActionListener() {
+        menDesconect.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_I, java.awt.event.InputEvent.ALT_DOWN_MASK));
+        menDesconect.setText("Desconectar");
+        menDesconect.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                menInicioActionPerformed(evt);
+                menDesconectActionPerformed(evt);
             }
         });
-        men.add(menInicio);
+        men.add(menDesconect);
 
         menSair.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.ALT_DOWN_MASK));
         menSair.setText("Sair");
@@ -245,7 +245,7 @@ public class Principal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_menSairActionPerformed
 
-    private void menInicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menInicioActionPerformed
+    private void menDesconectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menDesconectActionPerformed
         int voltarInicio = JOptionPane.showConfirmDialog(null, "Esta operação irá fechar a sessão atual. Tem certeza que deseja continuar?", "Atenção", JOptionPane.YES_NO_OPTION);
 
         if (voltarInicio == JOptionPane.YES_OPTION) {
@@ -253,7 +253,7 @@ public class Principal extends javax.swing.JFrame {
             inicio.setVisible(true);
             this.dispose();
         }
-    }//GEN-LAST:event_menInicioActionPerformed
+    }//GEN-LAST:event_menDesconectActionPerformed
 
     /**
      * @param args the command line arguments
@@ -302,7 +302,7 @@ public class Principal extends javax.swing.JFrame {
     public static javax.swing.JLabel lblEmail;
     public static javax.swing.JLabel lblUser;
     private javax.swing.JMenu men;
-    private javax.swing.JMenuItem menInicio;
+    private javax.swing.JMenuItem menDesconect;
     private javax.swing.JMenuItem menSair;
     private javax.swing.JDesktopPane painel;
     // End of variables declaration//GEN-END:variables

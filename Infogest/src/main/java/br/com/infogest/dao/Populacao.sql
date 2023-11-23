@@ -20,7 +20,7 @@ INSERT INTO movimentacoes (descricao, valor, data, tipo, usuario_id) VALUES
     ('resturante', 250.00, '2023-10-10', 'Despesa', 1),
     ('Gás', 50.00, '2023-10-20', 'Despesa', 1),
     ('Transporte', 80.00, '2023-10-23', 'Despesa', 1),
-    ('Mensalidade da Academia', 80.00, '2023-10-02', 'Despesa', 1);
+    ('Mensalidade da Academia', 80.00, '2023-10-02', 'Despesa', 1),
     -- usuario 2
     ('Manutenção do Carro', 200.00, '2023-10-17', 'Despesa', 1),
     ('Supermercado', 250.00, '2023-10-18', 'Despesa', 1),
@@ -43,7 +43,7 @@ INSERT INTO movimentacoes (descricao, valor, data, tipo, usuario_id) VALUES
     ('Conta de Luz', 150.00, '2023-09-05', 'Despesa', 1),
     ('Conta de Luz', 150.00, '2023-09-05', 'Despesa', 1),
     ('Internet', 70.00, '2023-09-25', 'Despesa', 1),
-    ('Mensalidade da Academia', 80.00, '2023-09-02', 'Despesa', 1);
+    ('Mensalidade da Academia', 80.00, '2023-09-02', 'Despesa', 1),
     -- usuario 2
     ('Gás', 50.00, '2023-09-20', 'Despesa', 2),
     ('Almoço fora', 30.00, '2023-09-12', 'Despesa', 2),
@@ -64,7 +64,7 @@ INSERT INTO movimentacoes (descricao, valor, data, tipo, usuario_id) VALUES
     ('Gás', 50.00, '2023-08-04', 'Despesa', 1),
     ('Internet', 70.00, '2023-08-25', 'Despesa', 1),
     ('Mensalidade da Academia', 80.00, '2023-08-02', 'Despesa', 1),
-    ('Telefone', 40.00, '2023-08-14', 'Despesa', 1);
+    ('Telefone', 40.00, '2023-08-14', 'Despesa', 1),
     -- usuario 2
     ('Aluguel', 1000.00, '2023-08-15', 'Despesa', 2),
     ('Supermercado', 250.00, '2023-08-10', 'Despesa', 2),
@@ -86,7 +86,7 @@ INSERT INTO movimentacoes (descricao, valor, data, tipo, usuario_id) VALUES
     ('Impostos', 300.00, '2023-02-10', 'Despesa', 1),
     ('Roupas', 75.00, '2023-03-08', 'Despesa', 1),
     ('Conserto em Casa', 200.00, '2023-04-15', 'Despesa', 1),
-    ('Manutenção do Computador', 60.00, '2023-05-07', 'Despesa', 1);
+    ('Manutenção do Computador', 60.00, '2023-05-07', 'Despesa', 1),
     -- usuario 2
     ('Internet', 70.00, '2023-07-25', 'Despesa', 2),
     ('Presentes', 50.00, '2023-07-03', 'Despesa', 2),
@@ -118,7 +118,7 @@ INSERT INTO movimentacoes (descricao, valor, data, tipo, usuario_id) VALUES
     ('Aluguel de Propriedade', 800.00, '2023-09-25', 'Receita', 1),
     ('Prêmio em Dinheiro', 100.00, '2023-09-20', 'Receita', 1),
     ('Bolsa de Estudos', 350.00, '2023-09-10', 'Receita', 1),
-    ('Recebimento de Empréstimo', 100.00, '2023-09-30', 'Receita', 1);
+    ('Recebimento de Empréstimo', 100.00, '2023-09-30', 'Receita', 1),
     -- usuario 2
     ('Salário', 2000.00, '2023-09-05', 'Receita', 1),
     ('Salário', 2000.00, '2023-09-05', 'Receita', 1),
@@ -142,8 +142,8 @@ INSERT INTO movimentacoes (descricao, valor, data, tipo, usuario_id) VALUES
     ('Consultoria', 300.00, '2023-08-18', 'Receita', 1),
     ('Venda de Eletrônicos', 200.00, '2023-08-20', 'Receita', 1),
     ('Prêmio em Loteria', 500.00, '2023-08-15', 'Receita', 1),
-    ('Prêmio em Loteria', 500.00, '2023-06-04', 'Receita', 1);
-    --usuario 2
+    ('Prêmio em Loteria', 500.00, '2023-06-04', 'Receita', 1),
+    -- usuario 2
     ('Rendimento de Investimentos', 300.00, '2023-08-10', 'Receita', 1),
     ('Freelance', 500.00, '2023-08-15', 'Receita', 1),
     ('Reembolso de Despesas', 150.00, '2023-08-20', 'Receita', 1),

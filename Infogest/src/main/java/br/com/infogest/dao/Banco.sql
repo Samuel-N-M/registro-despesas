@@ -27,8 +27,3 @@ CREATE TABLE movimentacoes (
 
 select * from usuarios;
 select * from movimentacoes;
-
--- Detalhes da tabela
-
-describe usuarios;
-describe movimentacoes;

@@ -112,6 +112,7 @@ public class DetalharContas extends javax.swing.JInternalFrame {
         listagem = new javax.swing.JTable();
 
         setClosable(true);
+        setTitle("Lintagem");
         setPreferredSize(new java.awt.Dimension(559, 464));
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Informações"));

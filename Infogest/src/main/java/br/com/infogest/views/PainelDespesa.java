@@ -64,7 +64,7 @@ public final class PainelDespesa extends javax.swing.JInternalFrame {
         setClosable(true);
         setIconifiable(true);
         setMaximizable(true);
-        setTitle("Listagem de Despesa");
+        setTitle("Despesa");
         setPreferredSize(new java.awt.Dimension(559, 464));
 
         jLabel1.setText("* Descrição");
@@ -156,7 +156,6 @@ public final class PainelDespesa extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
-        listaDespesa.setAutoscrolls(false);
         listaDespesa.setPreferredSize(new java.awt.Dimension(549, 281));
         listaDespesa.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {

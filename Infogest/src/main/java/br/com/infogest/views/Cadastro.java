@@ -44,6 +44,7 @@ public class Cadastro extends javax.swing.JFrame {
         btnVoltar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Cadastro");
         setResizable(false);
 
         jLabel1.setText("E-mail");
